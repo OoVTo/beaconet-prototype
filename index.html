@@ -23,22 +23,16 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: 'Rajdhani', sans-serif; color: var(--text); }
 
-  /* ─── SCREENS ─── */
   .screen { position: fixed; inset: 0; display: flex; flex-direction: column; transition: opacity 0.6s ease, transform 0.6s ease; }
   .screen.hidden { opacity: 0; pointer-events: none; transform: scale(1.02); }
 
-  /* ═══════════════════════════════════════════════
-     IDLE SCREEN
-  ══════════════════════════════════════════════ */
+  /* IDLE */
   #idle { align-items: center; justify-content: center; cursor: pointer; overflow: hidden; }
   #idle-canvas { position: absolute; inset: 0; }
   .idle-content { position: relative; z-index: 10; text-align: center; pointer-events: none; }
   .idle-title {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(2.8rem, 6vw, 6rem);
-    font-weight: 900;
-    letter-spacing: 0.18em;
-    color: #fff;
+    font-family: 'Orbitron', monospace; font-size: clamp(2.8rem, 6vw, 6rem);
+    font-weight: 900; letter-spacing: 0.18em; color: #fff;
     text-shadow: 0 0 30px var(--accent), 0 0 60px var(--accent), 0 0 100px #0087ff;
     animation: titlePulse 3s ease-in-out infinite;
   }
@@ -47,43 +41,27 @@
     50% { text-shadow: 0 0 50px var(--accent), 0 0 90px var(--accent2), 0 0 130px #00aaff; }
   }
   .idle-subtitle {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: clamp(0.55rem, 1.1vw, 0.9rem);
-    letter-spacing: 0.18em;
-    color: var(--accent);
-    opacity: 0.8;
-    margin-top: 0.8rem;
-    max-width: 580px;
-    line-height: 1.6;
+    font-family: 'Share Tech Mono', monospace; font-size: clamp(0.55rem, 1.1vw, 0.9rem);
+    letter-spacing: 0.18em; color: var(--accent); opacity: 0.8;
+    margin-top: 0.8rem; max-width: 580px; line-height: 1.6;
   }
   .idle-press {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.8rem;
-    letter-spacing: 0.3em;
-    color: var(--muted);
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: blink 1.8s step-end infinite;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; letter-spacing: 0.3em;
+    color: var(--muted); position: absolute; bottom: 2.5rem; left: 50%;
+    transform: translateX(-50%); animation: blink 1.8s step-end infinite;
   }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
-  /* ═══════════════════════════════════════════════
-     ADMIN SCREEN
-  ══════════════════════════════════════════════ */
+  /* ADMIN */
   #admin { flex-direction: row; overflow: hidden; }
-
-  /* Sidebar */
   .sidebar {
-    width: 240px; min-width: 240px; background: var(--surface); border-right: 1px solid var(--border);
-    display: flex; flex-direction: column; padding: 0; z-index: 20;
+    width: 240px; min-width: 240px; background: var(--surface);
+    border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 20;
   }
   .sidebar-logo {
     font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.1rem;
     letter-spacing: 0.15em; color: var(--accent); text-align: center;
-    padding: 1.5rem 1rem 1rem; border-bottom: 1px solid var(--border);
-    text-shadow: var(--glow);
+    padding: 1.5rem 1rem 1rem; border-bottom: 1px solid var(--border); text-shadow: var(--glow);
   }
   .sidebar-logo span { display: block; font-size: 0.5rem; letter-spacing: 0.2em; color: var(--muted); margin-top: 0.2rem; font-family: 'Share Tech Mono', monospace; }
   .sidebar-nav { flex: 1; padding: 1rem 0; overflow-y: auto; }
@@ -101,11 +79,7 @@
   .avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg,var(--accent),var(--accent2)); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron',monospace; font-weight: 900; font-size: 0.8rem; color: var(--bg); flex-shrink:0; }
   .profile-info p { font-size: 0.85rem; font-weight: 600; color: var(--text); }
   .profile-info span { font-size: 0.65rem; font-family: 'Share Tech Mono', monospace; color: var(--accent); letter-spacing: 0.1em; }
-
-  /* Main panel */
   .main-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-
-  /* Top bar */
   .topbar {
     display: flex; align-items: center; justify-content: space-between;
     padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
@@ -117,24 +91,18 @@
     font-family: 'Orbitron', monospace; font-size: 0.75rem; font-weight: 700;
     letter-spacing: 0.2em; padding: 0.55rem 1.4rem; cursor: pointer;
     background: transparent; border: 2px solid var(--accent); color: var(--accent);
-    border-radius: 4px; transition: all 0.25s; position: relative; overflow: hidden;
+    border-radius: 4px; transition: all 0.25s;
   }
   .detect-btn:hover, .detect-btn.active-btn { background: var(--accent); color: var(--bg); box-shadow: var(--glow2); }
   .detect-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   .status-badge { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; padding: 0.3rem 0.7rem; border-radius: 3px; letter-spacing: 0.1em; }
   .status-badge.online { background: #00ff9d18; color: var(--accent2); border: 1px solid #00ff9d44; }
-
-  /* Tabs */
   .tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink:0; }
   .tab { padding: 0.75rem 1.4rem; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; transition: all 0.2s; }
   .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
   .tab:hover { color: var(--text); }
-
-  /* Tab content */
   .tab-content { display: none; flex: 1; overflow-y: auto; padding: 1.5rem; }
   .tab-content.active { display: block; }
-
-  /* Grid of buildings */
   .buildings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
   .building-card {
     background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
@@ -160,8 +128,6 @@
   .field-row input { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 0.55rem 0.8rem; color: var(--text); font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
   .field-row input:focus { border-color: var(--accent); }
   .save-btn { font-family: 'Orbitron', monospace; font-size: 0.7rem; letter-spacing: 0.15em; padding: 0.5rem 1.2rem; background: var(--accent); color: var(--bg); border: none; border-radius: 4px; cursor: pointer; font-weight: 700; }
-
-  /* Settings tab */
   .settings-row { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 0; border-bottom: 1px solid var(--border); }
   .settings-row:last-child { border-bottom: none; }
   .settings-label { font-size: 0.88rem; font-weight: 600; }
@@ -171,9 +137,7 @@
   .toggle::after { content:''; position:absolute; width:16px; height:16px; background:#fff; border-radius:50%; top:3px; left:3px; transition: left 0.3s; }
   .toggle.on::after { left: 21px; }
 
-  /* ═══════════════════════════════════════════════
-     BUILDING DETAIL SCREEN
-  ══════════════════════════════════════════════ */
+  /* BUILDING DETAIL */
   #building-detail { flex-direction: column; background: var(--bg); overflow: hidden; }
   .detail-topbar {
     display: flex; align-items: center; gap: 1rem;
@@ -191,12 +155,10 @@
   .detail-body { flex:1; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:2rem; }
   #building-canvas-wrap { position:relative; }
   #building-canvas { display:block; }
-  .beacon-legend { position:absolute; bottom:-2.5rem; left:0; right:0; display:flex; justify-content:center; gap:1.5rem; font-family:'Share Tech Mono',monospace; font-size:0.6rem; color:var(--muted); letter-spacing:0.1em; }
-  .legend-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:4px; }
+  .beacon-legend { position:absolute; bottom:-2.2rem; left:0; right:0; display:flex; justify-content:center; gap:1.5rem; font-family:'Share Tech Mono',monospace; font-size:0.6rem; color:var(--muted); letter-spacing:0.1em; }
+  .legend-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:4px; vertical-align:middle; }
 
-  /* ═══════════════════════════════════════════════
-     DETECT OVERLAY
-  ══════════════════════════════════════════════ */
+  /* DETECT OVERLAY */
   #detect-overlay {
     position: fixed; inset: 0; background: #000000cc; backdrop-filter: blur(6px);
     z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -208,7 +170,6 @@
   .detect-timer { font-family: 'Share Tech Mono', monospace; font-size: 2.5rem; color: var(--text); margin-top: 0.5rem; }
   .detect-status { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.2em; margin-top: 0.5rem; animation: blink 1.5s step-end infinite; }
 
-  /* scrollbar */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -216,7 +177,7 @@
 </head>
 <body>
 
-<!-- ══ IDLE SCREEN ══ -->
+<!-- IDLE SCREEN -->
 <div id="idle" class="screen" onclick="enterAdmin()">
   <canvas id="idle-canvas"></canvas>
   <div class="idle-content">
@@ -226,76 +187,66 @@
   <div class="idle-press">PRESS ANYWHERE TO ENTER</div>
 </div>
 
-<!-- ══ ADMIN SCREEN ══ -->
+<!-- ADMIN SCREEN -->
 <div id="admin" class="screen hidden">
-  <!-- Sidebar -->
   <div class="sidebar">
     <div class="sidebar-logo">BEACONET<span>ADMIN CONSOLE v2.4</span></div>
     <div class="sidebar-nav">
       <div class="nav-section">NAVIGATION</div>
-      <div class="nav-item active" onclick="setNavActive(this,'dashboard')">
+      <div class="nav-item active" onclick="setNavActive(this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         Dashboard
       </div>
-      <div class="nav-item" onclick="setNavActive(this,'dashboard')">
+      <div class="nav-item" onclick="setNavActive(this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
         Live Tracking
       </div>
-      <div class="nav-item" onclick="setNavActive(this,'dashboard')">
+      <div class="nav-item" onclick="setNavActive(this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
         Analytics
       </div>
-      <div class="nav-item" onclick="setNavActive(this,'dashboard')">
+      <div class="nav-item" onclick="setNavActive(this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
         Reports
       </div>
       <div class="nav-section">MANAGEMENT</div>
-      <div class="nav-item" onclick="setNavActive(this,'dashboard')">
+      <div class="nav-item" onclick="setNavActive(this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         Devices
       </div>
-      <div class="nav-item" onclick="setNavActive(this,'dashboard')">
+      <div class="nav-item" onclick="setNavActive(this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
         Beacons
       </div>
-      <div class="nav-item" onclick="setNavActive(this,'dashboard')">
+      <div class="nav-item" onclick="setNavActive(this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         Alerts
       </div>
     </div>
     <div class="sidebar-profile">
       <div class="avatar">AD</div>
-      <div class="profile-info">
-        <p>Admin User</p>
-        <span>SYSTEM ADMIN</span>
-      </div>
+      <div class="profile-info"><p>Admin User</p><span>SYSTEM ADMIN</span></div>
     </div>
   </div>
 
-  <!-- Main Panel -->
   <div class="main-panel">
     <div class="topbar">
-      <div>
-        <div class="topbar-title">PROXIMITY GRID DASHBOARD</div>
-      </div>
+      <div><div class="topbar-title">PROXIMITY GRID DASHBOARD</div></div>
       <div class="topbar-right">
         <div class="status-badge online">● ONLINE</div>
         <button class="detect-btn" id="detect-btn" onclick="startDetect()">⬡ DETECT</button>
       </div>
     </div>
-
     <div class="tabs">
       <div class="tab active" onclick="switchTab(this,'buildings')">BUILDINGS</div>
       <div class="tab" onclick="switchTab(this,'account')">ACCOUNT</div>
       <div class="tab" onclick="switchTab(this,'settings')">SETTINGS</div>
     </div>
 
-    <!-- Buildings Tab -->
     <div class="tab-content active" id="tab-buildings">
       <div class="buildings-grid" id="buildings-grid"></div>
     </div>
 
-    <!-- Account Tab -->
     <div class="tab-content" id="tab-account">
       <div class="account-section">
         <div class="account-card">
@@ -314,47 +265,22 @@
         </div>
         <div class="account-card">
           <h3>SYSTEM PERMISSIONS</h3>
-          <div class="settings-row">
-            <div><div class="settings-label">Full Grid Access</div><div class="settings-desc">VIEW AND MANAGE ALL BEACON NODES</div></div>
-            <div class="toggle on"></div>
-          </div>
-          <div class="settings-row">
-            <div><div class="settings-label">Detection Override</div><div class="settings-desc">MANUALLY TRIGGER SCAN PROTOCOLS</div></div>
-            <div class="toggle on"></div>
-          </div>
-          <div class="settings-row">
-            <div><div class="settings-label">Alert Management</div><div class="settings-desc">DISMISS AND ESCALATE ALERTS</div></div>
-            <div class="toggle on"></div>
-          </div>
+          <div class="settings-row"><div><div class="settings-label">Full Grid Access</div><div class="settings-desc">VIEW AND MANAGE ALL BEACON NODES</div></div><div class="toggle on"></div></div>
+          <div class="settings-row"><div><div class="settings-label">Detection Override</div><div class="settings-desc">MANUALLY TRIGGER SCAN PROTOCOLS</div></div><div class="toggle on"></div></div>
+          <div class="settings-row"><div><div class="settings-label">Alert Management</div><div class="settings-desc">DISMISS AND ESCALATE ALERTS</div></div><div class="toggle on"></div></div>
         </div>
       </div>
     </div>
 
-    <!-- Settings Tab -->
     <div class="tab-content" id="tab-settings">
       <div class="account-section">
         <div class="account-card">
           <h3>SYSTEM SETTINGS</h3>
-          <div class="settings-row">
-            <div><div class="settings-label">Auto-Scan Interval</div><div class="settings-desc">PERIODIC BACKGROUND DETECTION</div></div>
-            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-          </div>
-          <div class="settings-row">
-            <div><div class="settings-label">Proximity Alerts</div><div class="settings-desc">PUSH NOTIFICATIONS ON DETECTION</div></div>
-            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-          </div>
-          <div class="settings-row">
-            <div><div class="settings-label">AI Decision Support</div><div class="settings-desc">ENABLE ML-BASED ITEM PREDICTION</div></div>
-            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-          </div>
-          <div class="settings-row">
-            <div><div class="settings-label">Debug Mode</div><div class="settings-desc">LOG VERBOSE BEACON TELEMETRY</div></div>
-            <div class="toggle" onclick="this.classList.toggle('on')"></div>
-          </div>
-          <div class="settings-row">
-            <div><div class="settings-label">Dark Theme</div><div class="settings-desc">INTERFACE COLOR SCHEME</div></div>
-            <div class="toggle on"></div>
-          </div>
+          <div class="settings-row"><div><div class="settings-label">Auto-Scan Interval</div><div class="settings-desc">PERIODIC BACKGROUND DETECTION</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+          <div class="settings-row"><div><div class="settings-label">Proximity Alerts</div><div class="settings-desc">PUSH NOTIFICATIONS ON DETECTION</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+          <div class="settings-row"><div><div class="settings-label">AI Decision Support</div><div class="settings-desc">ENABLE ML-BASED ITEM PREDICTION</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+          <div class="settings-row"><div><div class="settings-label">Debug Mode</div><div class="settings-desc">LOG VERBOSE BEACON TELEMETRY</div></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+          <div class="settings-row"><div><div class="settings-label">Dark Theme</div><div class="settings-desc">INTERFACE COLOR SCHEME</div></div><div class="toggle on"></div></div>
         </div>
         <div class="account-card">
           <h3>NETWORK</h3>
@@ -368,7 +294,7 @@
   </div>
 </div>
 
-<!-- ══ BUILDING DETAIL SCREEN ══ -->
+<!-- BUILDING DETAIL SCREEN -->
 <div id="building-detail" class="screen hidden">
   <div class="detail-topbar">
     <button class="back-btn" onclick="goBack()">← BACK</button>
@@ -388,7 +314,7 @@
   </div>
 </div>
 
-<!-- ══ DETECT OVERLAY ══ -->
+<!-- DETECT OVERLAY -->
 <div id="detect-overlay">
   <canvas id="detect-canvas" width="300" height="300"></canvas>
   <div class="detect-label">SCANNING GRID…</div>
@@ -397,9 +323,7 @@
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════
-//  DATA
-// ═══════════════════════════════════════════════════════════
+// ─── DATA ───────────────────────────────────────────────────
 const BUILDINGS = [
   { id:'B01', name:'Pan De Paolo', sub:'Canteen', icon:'🍞', beacons:6 },
   { id:'B02', name:'Grade School', sub:'Building', icon:'🏫', beacons:6 },
@@ -416,115 +340,79 @@ const BUILDINGS = [
   { id:'B13', name:'BEU Library', sub:'', icon:'📚', beacons:6 },
 ];
 
-// Randomize detected buildings per session
 const DETECTED_BUILDINGS = new Set();
 (function() {
-  const n = Math.floor(Math.random() * 4) + 2; // 2–5 buildings
+  const n = Math.floor(Math.random() * 4) + 2;
   const shuffled = [...BUILDINGS].sort(() => Math.random() - 0.5);
   shuffled.slice(0, n).forEach(b => DETECTED_BUILDINGS.add(b.id));
 })();
 
+// Seed random for stable item positions per building
+const rngSeeds = {};
+BUILDINGS.forEach(b => { rngSeeds[b.id] = b.id.charCodeAt(1); });
+function seededRand(id, idx) {
+  let x = Math.sin(rngSeeds[id] * 9301 + idx * 49297 + 233720) * 10000;
+  return x - Math.floor(x);
+}
+
 let scanComplete = false;
 let currentBuilding = null;
 
-// ═══════════════════════════════════════════════════════════
-//  IDLE SCREEN — RADAR CANVAS
-// ═══════════════════════════════════════════════════════════
+// ─── IDLE CANVAS ────────────────────────────────────────────
 (function initIdle() {
   const canvas = document.getElementById('idle-canvas');
   const ctx = canvas.getContext('2d');
-  let W, H, beacons = [], dots = [], ripples = [];
+  let W, H, beacons = [], dots = [];
 
   function resize() {
     W = canvas.width = window.innerWidth;
     H = canvas.height = window.innerHeight;
-    // Place 6-8 beacons
     beacons = [];
-    const n = 7;
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < 7; i++) {
       beacons.push({
-        x: 80 + Math.random() * (W - 160),
-        y: 80 + Math.random() * (H - 160),
-        phase: Math.random() * Math.PI * 2,
-        ripples: [],
-        interval: 1800 + Math.random() * 2000,
-        last: 0
+        x: 80 + Math.random() * (W - 160), y: 80 + Math.random() * (H - 160),
+        phase: Math.random() * Math.PI * 2, ripples: [],
+        interval: 1800 + Math.random() * 2000, last: 0
       });
     }
-    // Random dots
     dots = [];
     for (let i = 0; i < 18; i++) {
-      dots.push({
-        x: 60 + Math.random() * (W - 120),
-        y: 60 + Math.random() * (H - 120),
-        alpha: 0.1 + Math.random() * 0.5,
-        size: 2 + Math.random() * 3
-      });
+      dots.push({ x: 60 + Math.random() * (W - 120), y: 60 + Math.random() * (H - 120), alpha: 0.1 + Math.random() * 0.5, size: 2 + Math.random() * 3 });
     }
   }
-
   window.addEventListener('resize', resize);
   resize();
 
   let last = 0;
   function loop(ts) {
     requestAnimationFrame(loop);
-    const dt = ts - last; last = ts;
-
+    last = ts;
     ctx.clearRect(0, 0, W, H);
-
-    // Grid lines
-    ctx.strokeStyle = '#0d3a5533';
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#0d3a5533'; ctx.lineWidth = 1;
     const gs = 60;
     for (let x = 0; x < W; x += gs) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
     for (let y = 0; y < H; y += gs) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-
-    // Dots
-    dots.forEach(d => {
-      ctx.beginPath();
-      ctx.arc(d.x, d.y, d.size, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(0, 229, 255, ${d.alpha})`;
-      ctx.fill();
-    });
-
-    // Beacons + ripples
+    dots.forEach(d => { ctx.beginPath(); ctx.arc(d.x, d.y, d.size, 0, Math.PI*2); ctx.fillStyle = `rgba(0,229,255,${d.alpha})`; ctx.fill(); });
     beacons.forEach(b => {
-      // Spawn ripple
-      if (ts - b.last > b.interval) {
-        b.last = ts;
-        b.ripples.push({ r: 0, alpha: 0.9, maxR: 120 + Math.random() * 80 });
-      }
-      // Draw ripples
+      if (ts - b.last > b.interval) { b.last = ts; b.ripples.push({ r: 0, alpha: 0.9, maxR: 120 + Math.random() * 80 }); }
       b.ripples = b.ripples.filter(r => r.alpha > 0.01);
       b.ripples.forEach(r => {
-        r.r += 1.4;
-        r.alpha = Math.max(0, 0.9 * (1 - r.r / r.maxR));
-        ctx.beginPath();
-        ctx.arc(b.x, b.y, r.r, 0, Math.PI*2);
-        ctx.strokeStyle = `rgba(0, 229, 255, ${r.alpha * 0.7})`;
-        ctx.lineWidth = 2;
-        ctx.stroke();
+        r.r += 1.4; r.alpha = Math.max(0, 0.9 * (1 - r.r / r.maxR));
+        ctx.beginPath(); ctx.arc(b.x, b.y, r.r, 0, Math.PI*2);
+        ctx.strokeStyle = `rgba(0,229,255,${r.alpha * 0.7})`; ctx.lineWidth = 2; ctx.stroke();
       });
-      // Core beacon
       const pulse = 0.5 + 0.5 * Math.sin(ts * 0.002 + b.phase);
-      ctx.beginPath();
-      ctx.arc(b.x, b.y, 5 + pulse * 3, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(0, 229, 255, ${0.6 + pulse * 0.4})`;
-      ctx.fill();
-      // Cross
-      ctx.strokeStyle = `rgba(0, 229, 255, ${0.4 + pulse * 0.3})`;
-      ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(b.x-12, b.y); ctx.lineTo(b.x+12, b.y); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(b.x, b.y-12); ctx.lineTo(b.x, b.y+12); ctx.stroke();
+      ctx.beginPath(); ctx.arc(b.x, b.y, 5 + pulse * 3, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(0,229,255,${0.6 + pulse * 0.4})`; ctx.fill();
+      ctx.strokeStyle = `rgba(0,229,255,${0.4 + pulse * 0.3})`; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(b.x-12,b.y); ctx.lineTo(b.x+12,b.y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(b.x,b.y-12); ctx.lineTo(b.x,b.y+12); ctx.stroke();
     });
   }
   requestAnimationFrame(loop);
 })();
 
-// ═══════════════════════════════════════════════════════════
-//  BUILDING CARDS
-// ═══════════════════════════════════════════════════════════
+// ─── BUILDING CARDS ─────────────────────────────────────────
 function renderBuildings(showDetected) {
   const grid = document.getElementById('buildings-grid');
   grid.innerHTML = '';
@@ -532,24 +420,18 @@ function renderBuildings(showDetected) {
     const detected = showDetected && DETECTED_BUILDINGS.has(b.id);
     const card = document.createElement('div');
     card.className = 'building-card' + (detected ? ' detected' : '');
-    card.dataset.id = b.id;
     card.innerHTML = `
       <div class="building-icon">${b.icon}</div>
-      <div class="building-name">${b.name}${b.sub ? '<br><span style="color:var(--muted);font-size:0.75rem">${b.sub}</span>' : ''}</div>
+      <div class="building-name">${b.name}${b.sub ? `<br><span style="color:var(--muted);font-size:0.75rem">${b.sub}</span>` : ''}</div>
       <div class="building-id">${b.id}</div>
       <div class="beacon-count">⬡ ${b.beacons} BEACONS</div>`;
-    // Fix template literal escaping
-    card.querySelector('.building-name').innerHTML =
-      `${b.name}${b.sub ? `<br><span style="color:var(--muted);font-size:0.75rem">${b.sub}</span>` : ''}`;
     card.onclick = () => openBuilding(b);
     grid.appendChild(card);
   });
 }
 renderBuildings(false);
 
-// ═══════════════════════════════════════════════════════════
-//  NAVIGATION
-// ═══════════════════════════════════════════════════════════
+// ─── NAVIGATION ─────────────────────────────────────────────
 function enterAdmin() {
   document.getElementById('idle').classList.add('hidden');
   document.getElementById('admin').classList.remove('hidden');
@@ -570,331 +452,222 @@ function switchTab(el, name) {
   document.getElementById('tab-' + name).classList.add('active');
 }
 
-// ═══════════════════════════════════════════════════════════
-//  DETECT ANIMATION (radar overlay)
-// ═══════════════════════════════════════════════════════════
+// ─── DETECT ANIMATION ───────────────────────────────────────
 function startDetect() {
-  if (document.getElementById('detect-btn').disabled) return;
-  document.getElementById('detect-btn').disabled = true;
+  const btn = document.getElementById('detect-btn');
+  if (btn.disabled) return;
+  btn.disabled = true;
   const overlay = document.getElementById('detect-overlay');
   overlay.classList.add('show');
-
   const canvas = document.getElementById('detect-canvas');
   const ctx = canvas.getContext('2d');
   const CX = 150, CY = 150, R = 120;
-  let angle = 0, ticks = 0;
+  let angle = 0;
   let countdown = 20;
   document.getElementById('detect-timer').textContent = countdown;
-
   const countInterval = setInterval(() => {
     countdown--;
     document.getElementById('detect-timer').textContent = countdown;
     if (countdown <= 0) clearInterval(countInterval);
   }, 1000);
-
-  // Random blips
   const blips = [];
-
   function drawRadar() {
     ctx.clearRect(0, 0, 300, 300);
-    // BG
-    ctx.fillStyle = '#030d14';
-    ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI*2); ctx.fill();
-
-    // Rings
-    for (let i = 1; i <= 4; i++) {
-      ctx.beginPath(); ctx.arc(CX, CY, R * i / 4, 0, Math.PI*2);
-      ctx.strokeStyle = '#0d3a55'; ctx.lineWidth = 1; ctx.stroke();
-    }
-    // Cross
+    ctx.fillStyle = '#030d14'; ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI*2); ctx.fill();
+    for (let i = 1; i <= 4; i++) { ctx.beginPath(); ctx.arc(CX, CY, R*i/4, 0, Math.PI*2); ctx.strokeStyle = '#0d3a55'; ctx.lineWidth = 1; ctx.stroke(); }
     ctx.strokeStyle = '#0d3a55'; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(CX-R,CY); ctx.lineTo(CX+R,CY); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(CX,CY-R); ctx.lineTo(CX,CY+R); ctx.stroke();
-
-    // Sweep
-    const sweep = ctx.createConicalGradient ? null : null;
     for (let i = 0; i < 60; i++) {
       const a = angle - i * 0.02;
-      const alpha = (60 - i) / 60 * 0.35;
-      ctx.beginPath();
-      ctx.moveTo(CX, CY);
-      ctx.arc(CX, CY, R, a - 0.02, a);
-      ctx.closePath();
-      ctx.fillStyle = `rgba(0, 229, 255, ${alpha})`;
-      ctx.fill();
+      ctx.beginPath(); ctx.moveTo(CX, CY); ctx.arc(CX, CY, R, a - 0.02, a); ctx.closePath();
+      ctx.fillStyle = `rgba(0,229,255,${(60-i)/60*0.35})`; ctx.fill();
     }
-    // Sweep line
-    ctx.beginPath();
-    ctx.moveTo(CX, CY);
-    ctx.lineTo(CX + Math.cos(angle) * R, CY + Math.sin(angle) * R);
-    ctx.strokeStyle = 'rgba(0,229,255,0.9)';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    // Blips
+    ctx.beginPath(); ctx.moveTo(CX, CY); ctx.lineTo(CX + Math.cos(angle)*R, CY + Math.sin(angle)*R);
+    ctx.strokeStyle = 'rgba(0,229,255,0.9)'; ctx.lineWidth = 2; ctx.stroke();
     blips.forEach((b, i) => {
       b.life -= 0.012;
       if (b.life <= 0) { blips.splice(i, 1); return; }
-      ctx.beginPath();
-      ctx.arc(b.x, b.y, 4, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(0, 255, 157, ${b.life})`;
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(b.x, b.y, 8 * (1 - b.life), 0, Math.PI*2);
-      ctx.strokeStyle = `rgba(0,255,157,${b.life*0.5})`;
-      ctx.lineWidth = 1;
-      ctx.stroke();
+      ctx.beginPath(); ctx.arc(b.x, b.y, 4, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(0,255,157,${b.life})`; ctx.fill();
+      ctx.beginPath(); ctx.arc(b.x, b.y, 8*(1-b.life), 0, Math.PI*2);
+      ctx.strokeStyle = `rgba(0,255,157,${b.life*0.5})`; ctx.lineWidth = 1; ctx.stroke();
     });
-
-    // Spawn blips
     if (Math.random() < 0.04) {
-      const a2 = Math.random() * Math.PI * 2;
-      const r2 = Math.random() * (R - 15) + 10;
+      const a2 = Math.random() * Math.PI * 2, r2 = Math.random() * (R-15) + 10;
       blips.push({ x: CX + Math.cos(a2)*r2, y: CY + Math.sin(a2)*r2, life: 1 });
     }
-
-    // Border
     ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI*2);
     ctx.strokeStyle = '#00e5ff55'; ctx.lineWidth = 2; ctx.stroke();
   }
-
   let rafId;
-  function animLoop() {
-    angle += 0.04;
-    ticks++;
-    drawRadar();
-    rafId = requestAnimationFrame(animLoop);
-  }
+  function animLoop() { angle += 0.04; drawRadar(); rafId = requestAnimationFrame(animLoop); }
   animLoop();
-
   setTimeout(() => {
     cancelAnimationFrame(rafId);
     overlay.classList.remove('show');
     scanComplete = true;
     renderBuildings(true);
-    document.getElementById('detect-btn').textContent = '✓ SCANNED';
-    document.getElementById('detect-btn').classList.add('active-btn');
+    btn.textContent = '✓ SCANNED';
+    btn.classList.add('active-btn');
   }, 20000);
 }
 
-// ═══════════════════════════════════════════════════════════
-//  BUILDING DETAIL + CANVAS
-// ═══════════════════════════════════════════════════════════
+// ─── BUILDING DETAIL — STATIC DRAW ──────────────────────────
 function openBuilding(b) {
   currentBuilding = b;
   document.getElementById('admin').classList.add('hidden');
-  const screen = document.getElementById('building-detail');
-  screen.classList.remove('hidden');
+  document.getElementById('building-detail').classList.remove('hidden');
   document.getElementById('detail-title').textContent = b.name + (b.sub ? ' — ' + b.sub : '');
-
   drawBuilding(b);
 }
 
 function drawBuilding(b) {
   const canvas = document.getElementById('building-canvas');
   const ctx = canvas.getContext('2d');
-  const isRect = b.shape === 'rect';
-  const hasItem = DETECTED_BUILDINGS.has(b.id) && scanComplete;
 
-  // Responsive size
   const bodyW = document.querySelector('.detail-body').clientWidth;
   const bodyH = document.querySelector('.detail-body').clientHeight;
-  const SIZE = Math.min(bodyW - 80, bodyH - 120, 520);
+  const SIZE = Math.min(bodyW - 80, bodyH - 100, 540);
   canvas.width = SIZE;
-  canvas.height = SIZE * 0.72;
+  canvas.height = Math.round(SIZE * 0.68);
   const W = canvas.width, H = canvas.height;
 
   ctx.clearRect(0, 0, W, H);
 
-  // Grid bg
+  // Background
   ctx.fillStyle = '#071828';
   ctx.fillRect(0, 0, W, H);
-  ctx.strokeStyle = '#0d3a5544';
+
+  // Grid lines
+  ctx.strokeStyle = '#0d3a5540';
   ctx.lineWidth = 1;
-  const gs = 28;
+  const gs = 26;
   for (let x = 0; x <= W; x += gs) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
   for (let y = 0; y <= H; y += gs) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
 
-  // Compute shape polygon
-  const pad = 40;
-  let path = [];
+  // Build shape path
+  const pad = 38;
+  const path = (b.shape === 'rect')
+    ? [[pad,pad],[W-pad,pad],[W-pad,H-pad],[pad,H-pad]]
+    : buildingShape(b.id, W, H, pad);
 
-  if (isRect) {
-    // Simple rectangle
-    path = [
-      [pad, pad], [W - pad, pad], [W - pad, H - pad], [pad, H - pad]
-    ];
-  } else {
-    // Generate a building-like polygon for this specific building
-    const shapes = buildingShape(b.id, W, H, pad);
-    path = shapes;
-  }
-
-  // Draw building shape
+  // Draw filled shape
   ctx.beginPath();
   ctx.moveTo(path[0][0], path[0][1]);
-  path.slice(1).forEach(p => ctx.lineTo(p[0], p[1]));
+  for (let i = 1; i < path.length; i++) ctx.lineTo(path[i][0], path[i][1]);
   ctx.closePath();
-  ctx.fillStyle = '#0a2035';
+  ctx.fillStyle = '#0c243a';
   ctx.fill();
   ctx.strokeStyle = '#00e5ff';
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  // Beacons — distribute evenly inside shape bounding box
+  // Compute bounding box for beacon placement
   const xs = path.map(p => p[0]), ys = path.map(p => p[1]);
-  const minX = Math.min(...xs) + 20, maxX = Math.max(...xs) - 20;
-  const minY = Math.min(...ys) + 20, maxY = Math.max(...ys) - 20;
-  const bCount = b.beacons;
-  const beaconPositions = distributePoints(bCount, minX, maxX, minY, maxY);
+  const minX = Math.min(...xs) + 22, maxX = Math.max(...xs) - 22;
+  const minY = Math.min(...ys) + 22, maxY = Math.max(...ys) - 22;
 
+  const beaconPositions = distributePoints(b.beacons, minX, maxX, minY, maxY);
+
+  // Draw beacons — clean static rings + core dot
   beaconPositions.forEach(([bx, by]) => {
-    // Ripple
-    ctx.beginPath();
-    ctx.arc(bx, by, 18, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(0,229,255,0.15)';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(bx, by, 10, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(0,229,255,0.25)';
-    ctx.stroke();
-    // Core
-    ctx.beginPath();
-    ctx.arc(bx, by, 5, 0, Math.PI*2);
-    ctx.fillStyle = '#00e5ff';
-    ctx.fill();
-    // Cross
-    ctx.strokeStyle = 'rgba(0,229,255,0.6)';
-    ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(bx-10,by); ctx.lineTo(bx+10,by); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(bx,by-10); ctx.lineTo(bx,by+10); ctx.stroke();
-    // Label
-    ctx.fillStyle = 'rgba(0,229,255,0.5)';
-    ctx.font = '8px Share Tech Mono, monospace';
-    ctx.fillText('BCN', bx+8, by-8);
+    // Outer ring (faint)
+    ctx.beginPath(); ctx.arc(bx, by, 20, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(0,229,255,0.12)'; ctx.lineWidth = 1.5; ctx.stroke();
+    // Middle ring
+    ctx.beginPath(); ctx.arc(bx, by, 12, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(0,229,255,0.28)'; ctx.lineWidth = 1.5; ctx.stroke();
+    // Inner ring
+    ctx.beginPath(); ctx.arc(bx, by, 7, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(0,229,255,0.55)'; ctx.lineWidth = 1.5; ctx.stroke();
+    // Core dot
+    ctx.beginPath(); ctx.arc(bx, by, 4, 0, Math.PI*2);
+    ctx.fillStyle = '#00e5ff'; ctx.fill();
+    // Crosshair lines
+    ctx.strokeStyle = 'rgba(0,229,255,0.45)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(bx-11,by); ctx.lineTo(bx+11,by); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(bx,by-11); ctx.lineTo(bx,by+11); ctx.stroke();
+    // Tiny label
+    ctx.fillStyle = 'rgba(0,229,255,0.4)';
+    ctx.font = '7px "Share Tech Mono", monospace';
+    ctx.fillText('BCN', bx+9, by-7);
   });
 
-  // Red dot for detected items
+  // Draw detected item dot(s) — only after scan complete
+  const hasItem = scanComplete && DETECTED_BUILDINGS.has(b.id);
   if (hasItem) {
-    // 1-2 random positions inside shape
-    const numDots = Math.random() < 0.4 ? 2 : 1;
+    const numDots = seededRand(b.id, 0) < 0.4 ? 2 : 1;
     for (let d = 0; d < numDots; d++) {
-      const rx = minX + 15 + Math.random() * (maxX - minX - 30);
-      const ry = minY + 15 + Math.random() * (maxY - minY - 30);
-      // Outer glow
-      const grad = ctx.createRadialGradient(rx, ry, 0, rx, ry, 22);
-      grad.addColorStop(0, 'rgba(255,61,90,0.6)');
+      // Use seeded random so position is stable on resize
+      const rx = minX + 15 + seededRand(b.id, d * 2 + 1) * (maxX - minX - 30);
+      const ry = minY + 15 + seededRand(b.id, d * 2 + 2) * (maxY - minY - 30);
+
+      // Glow halo
+      const grad = ctx.createRadialGradient(rx, ry, 0, rx, ry, 24);
+      grad.addColorStop(0, 'rgba(255,61,90,0.55)');
+      grad.addColorStop(0.5, 'rgba(255,61,90,0.18)');
       grad.addColorStop(1, 'rgba(255,61,90,0)');
-      ctx.beginPath(); ctx.arc(rx, ry, 22, 0, Math.PI*2);
+      ctx.beginPath(); ctx.arc(rx, ry, 24, 0, Math.PI*2);
       ctx.fillStyle = grad; ctx.fill();
-      // Rings
-      ctx.beginPath(); ctx.arc(rx, ry, 14, 0, Math.PI*2);
-      ctx.strokeStyle = 'rgba(255,61,90,0.4)'; ctx.lineWidth = 1.5; ctx.stroke();
-      // Core
-      ctx.beginPath(); ctx.arc(rx, ry, 6, 0, Math.PI*2);
+
+      // Outer ring
+      ctx.beginPath(); ctx.arc(rx, ry, 15, 0, Math.PI*2);
+      ctx.strokeStyle = 'rgba(255,61,90,0.45)'; ctx.lineWidth = 1.5; ctx.stroke();
+      // Inner ring
+      ctx.beginPath(); ctx.arc(rx, ry, 9, 0, Math.PI*2);
+      ctx.strokeStyle = 'rgba(255,61,90,0.75)'; ctx.lineWidth = 1.5; ctx.stroke();
+      // Core dot
+      ctx.beginPath(); ctx.arc(rx, ry, 5, 0, Math.PI*2);
       ctx.fillStyle = '#ff3d5a'; ctx.fill();
-      ctx.beginPath(); ctx.arc(rx, ry, 3, 0, Math.PI*2);
+      // White centre
+      ctx.beginPath(); ctx.arc(rx, ry, 2, 0, Math.PI*2);
       ctx.fillStyle = '#fff'; ctx.fill();
-      // Label
+
+      // Label — check right edge, flip left if needed
+      ctx.font = 'bold 8px "Share Tech Mono", monospace';
+      const labelW = ctx.measureText('LOST ITEM').width;
+      const lx = (rx + 13 + labelW < W - 8) ? rx + 13 : rx - 13 - labelW;
       ctx.fillStyle = '#ff3d5a';
-      ctx.font = 'bold 9px Share Tech Mono, monospace';
-      ctx.fillText('LOST ITEM', rx + 10, ry - 10);
+      ctx.fillText('LOST ITEM', lx, ry - 8);
     }
   }
-
-  // Animate beacons
-  let animPhase = 0;
-  let animId;
-  function animBeacons() {
-    animPhase += 0.04;
-    // Redraw just the beacon pulses on top — lightweight
-    beaconPositions.forEach(([bx, by]) => {
-      const pulse = 0.4 + 0.4 * Math.sin(animPhase + bx * 0.05);
-      ctx.beginPath();
-      ctx.arc(bx, by, 22 * pulse, 0, Math.PI*2);
-      ctx.strokeStyle = `rgba(0,229,255,${0.08 * pulse})`;
-      ctx.lineWidth = 2;
-      ctx.stroke();
-    });
-    animId = requestAnimationFrame(animBeacons);
-  }
-  // Cancel previous
-  if (window._buildingAnimId) cancelAnimationFrame(window._buildingAnimId);
-  animBeacons();
-  window._buildingAnimId = animId;
 }
 
 function distributePoints(n, x0, x1, y0, y1) {
   const pts = [];
-  const cols = Math.ceil(Math.sqrt(n * (x1-x0) / (y1-y0)));
+  const cols = Math.max(1, Math.ceil(Math.sqrt(n * (x1-x0) / Math.max(1, y1-y0))));
   const rows = Math.ceil(n / cols);
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       if (pts.length >= n) break;
-      const px = x0 + (c + 0.5) * (x1-x0) / cols;
-      const py = y0 + (r + 0.5) * (y1-y0) / rows;
-      pts.push([px, py]);
+      pts.push([
+        x0 + (c + 0.5) * (x1-x0) / cols,
+        y0 + (r + 0.5) * (y1-y0) / rows
+      ]);
     }
   }
   return pts;
 }
 
 function buildingShape(id, W, H, pad) {
-  // Each building gets a distinct geometric building-like shape
+  const p = pad;
   const shapes = {
-    'B01': [ // L-shape (canteen)
-      [pad, pad+H*0.2], [pad+W*0.4, pad+H*0.2], [pad+W*0.4, pad],
-      [W-pad, pad], [W-pad, H-pad], [pad, H-pad]
-    ],
-    'B02': [ // Rectangular with notch top (school)
-      [pad, pad+H*0.15], [pad+W*0.2, pad+H*0.15], [pad+W*0.2, pad],
-      [W-pad-W*0.2, pad], [W-pad-W*0.2, pad+H*0.15], [W-pad, pad+H*0.15],
-      [W-pad, H-pad], [pad, H-pad]
-    ],
-    'B03': [ // T-shape (JHS)
-      [pad+W*0.15, pad], [W-pad-W*0.15, pad], [W-pad-W*0.15, pad+H*0.35],
-      [W-pad, pad+H*0.35], [W-pad, pad+H*0.65], [W-pad-W*0.15, pad+H*0.65],
-      [W-pad-W*0.15, H-pad], [pad+W*0.15, H-pad], [pad+W*0.15, pad+H*0.65],
-      [pad, pad+H*0.65], [pad, pad+H*0.35], [pad+W*0.15, pad+H*0.35]
-    ],
-    'B04': [ // Simple offset rect
-      [pad+W*0.1, pad], [W-pad, pad], [W-pad, H-pad-H*0.15],
-      [W-pad-W*0.1, H-pad], [pad, H-pad], [pad, pad+H*0.15]
-    ],
-    'B05': [ // Wide trapezoid (grandstand)
-      [pad*0.5, H-pad], [W-pad*0.5, H-pad], [W-pad*1.5, pad], [pad*1.5, pad]
-    ],
-    'B06': [ // Wide rectangle with dividers hint
-      [pad, pad], [W-pad, pad], [W-pad, H-pad], [pad, H-pad]
-    ],
-    'B07': [ // Irregular grounds
-      [pad, pad+H*0.3], [pad+W*0.25, pad], [W-pad, pad],
-      [W-pad, H-pad], [pad, H-pad]
-    ],
-    'B08': [ // Diamond cut corner
-      [pad+W*0.15, pad], [W-pad, pad], [W-pad, H-pad-H*0.15],
-      [W-pad-W*0.15, H-pad], [pad, H-pad], [pad, pad]
-    ],
-    'B09': [ // Small L (canteen extension)
-      [pad, pad], [W-pad-W*0.3, pad], [W-pad-W*0.3, pad+H*0.4],
-      [W-pad, pad+H*0.4], [W-pad, H-pad], [pad, H-pad]
-    ],
-    'B12': [ // Z-ish shape
-      [pad, pad], [W-pad, pad], [W-pad, pad+H*0.5],
-      [pad+W*0.4, pad+H*0.5], [pad+W*0.4, H-pad], [pad, H-pad]
-    ],
-    'B13': [ // Library — tall with wide base
-      [pad+W*0.1, pad], [W-pad-W*0.1, pad], [W-pad, pad+H*0.1],
-      [W-pad, H-pad], [pad, H-pad], [pad, pad+H*0.1]
-    ],
+    'B01': [[p,p+H*0.2],[p+W*0.4,p+H*0.2],[p+W*0.4,p],[W-p,p],[W-p,H-p],[p,H-p]],
+    'B02': [[p,p+H*0.15],[p+W*0.2,p+H*0.15],[p+W*0.2,p],[W-p-W*0.2,p],[W-p-W*0.2,p+H*0.15],[W-p,p+H*0.15],[W-p,H-p],[p,H-p]],
+    'B03': [[p+W*0.15,p],[W-p-W*0.15,p],[W-p-W*0.15,p+H*0.35],[W-p,p+H*0.35],[W-p,p+H*0.65],[W-p-W*0.15,p+H*0.65],[W-p-W*0.15,H-p],[p+W*0.15,H-p],[p+W*0.15,p+H*0.65],[p,p+H*0.65],[p,p+H*0.35],[p+W*0.15,p+H*0.35]],
+    'B04': [[p+W*0.1,p],[W-p,p],[W-p,H-p-H*0.15],[W-p-W*0.1,H-p],[p,H-p],[p,p+H*0.15]],
+    'B05': [[p*0.5,H-p],[W-p*0.5,H-p],[W-p*1.5,p],[p*1.5,p]],
+    'B06': [[p,p],[W-p,p],[W-p,H-p],[p,H-p]],
+    'B07': [[p,p+H*0.3],[p+W*0.25,p],[W-p,p],[W-p,H-p],[p,H-p]],
+    'B08': [[p+W*0.15,p],[W-p,p],[W-p,H-p-H*0.15],[W-p-W*0.15,H-p],[p,H-p],[p,p]],
+    'B09': [[p,p],[W-p-W*0.3,p],[W-p-W*0.3,p+H*0.4],[W-p,p+H*0.4],[W-p,H-p],[p,H-p]],
+    'B12': [[p,p],[W-p,p],[W-p,p+H*0.5],[p+W*0.4,p+H*0.5],[p+W*0.4,H-p],[p,H-p]],
+    'B13': [[p+W*0.1,p],[W-p-W*0.1,p],[W-p,p+H*0.1],[W-p,H-p],[p,H-p],[p,p+H*0.1]],
   };
-  return shapes[id] || [
-    [pad, pad], [W-pad, pad], [W-pad, H-pad], [pad, H-pad]
-  ];
+  return shapes[id] || [[p,p],[W-p,p],[W-p,H-p],[p,H-p]];
 }
 
-// Redraw on resize
 window.addEventListener('resize', () => {
   if (currentBuilding) drawBuilding(currentBuilding);
 });
