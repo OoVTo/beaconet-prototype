@@ -55,7 +55,7 @@
   /* ADMIN */
   #admin { flex-direction: row; overflow: hidden; }
   .sidebar {
-    width: 240px; min-width: 240px; background: var(--surface);
+    width: 260px; min-width: 260px; background: var(--surface);
     border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 20;
   }
   .sidebar-logo {
@@ -97,6 +97,14 @@
   .detect-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   .status-badge { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; padding: 0.3rem 0.7rem; border-radius: 3px; letter-spacing: 0.1em; }
   .status-badge.online { background: #00ff9d18; color: var(--accent2); border: 1px solid #00ff9d44; }
+
+  /* SIDEBAR PANELS */
+  .sidebar-panel { display: none; flex: 1; flex-direction: column; overflow: hidden; }
+  .sidebar-panel.active { display: flex; }
+  .panel-header { font-family: 'Orbitron', monospace; font-size: 0.7rem; letter-spacing: 0.18em; color: var(--accent); padding: 1rem 1.2rem 0.6rem; border-bottom: 1px solid var(--border); flex-shrink:0; text-shadow: var(--glow); }
+  .panel-body { flex: 1; overflow-y: auto; padding: 0.8rem; }
+
+  /* TABS (buildings) */
   .tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink:0; }
   .tab { padding: 0.75rem 1.4rem; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; transition: all 0.2s; }
   .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
@@ -119,23 +127,78 @@
   .building-id { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; }
   .beacon-count { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; color: var(--accent); margin-top: auto; }
 
-  /* Account tab */
-  .account-section { max-width: 560px; }
-  .account-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
-  .account-card h3 { font-family: 'Orbitron', monospace; font-size: 0.8rem; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 1rem; }
-  .field-row { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.8rem; }
-  .field-row label { font-size: 0.7rem; letter-spacing: 0.12em; color: var(--muted); font-family: 'Share Tech Mono', monospace; }
-  .field-row input { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 0.55rem 0.8rem; color: var(--text); font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
-  .field-row input:focus { border-color: var(--accent); }
-  .save-btn { font-family: 'Orbitron', monospace; font-size: 0.7rem; letter-spacing: 0.15em; padding: 0.5rem 1.2rem; background: var(--accent); color: var(--bg); border: none; border-radius: 4px; cursor: pointer; font-weight: 700; }
-  .settings-row { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 0; border-bottom: 1px solid var(--border); }
-  .settings-row:last-child { border-bottom: none; }
-  .settings-label { font-size: 0.88rem; font-weight: 600; }
-  .settings-desc { font-size: 0.7rem; color: var(--muted); margin-top: 0.15rem; font-family: 'Share Tech Mono', monospace; }
-  .toggle { width: 40px; height: 22px; background: var(--border); border-radius: 11px; position: relative; cursor: pointer; transition: background 0.3s; flex-shrink:0; }
-  .toggle.on { background: var(--accent); }
-  .toggle::after { content:''; position:absolute; width:16px; height:16px; background:#fff; border-radius:50%; top:3px; left:3px; transition: left 0.3s; }
-  .toggle.on::after { left: 21px; }
+  /* LOG ENTRIES */
+  .log-entry {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.65rem 0.8rem; margin-bottom: 0.5rem; font-family: 'Share Tech Mono', monospace; font-size: 0.6rem;
+  }
+  .log-entry .log-id { color: var(--accent); font-size: 0.65rem; }
+  .log-entry .log-time { color: var(--muted); font-size: 0.55rem; }
+  .log-entry .log-result { font-size: 0.62rem; padding: 2px 6px; border-radius: 2px; margin-top: 4px; display: inline-block; letter-spacing: 0.08em; }
+  .log-result.found { background: #00ff9d18; color: var(--accent2); border: 1px solid #00ff9d44; }
+  .log-result.not-found { background: #ff3d5a18; color: var(--danger); border: 1px solid #ff3d5a44; }
+  .log-result.no-access { background: #ffcc0018; color: var(--warn); border: 1px solid #ffcc0044; }
+
+  /* STATUS ENTRIES */
+  .status-entry {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.7rem 0.8rem; margin-bottom: 0.5rem;
+  }
+  .status-entry .se-id { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; color: var(--accent); }
+  .status-entry .se-loc { font-family: 'Share Tech Mono', monospace; font-size: 0.55rem; color: var(--muted); margin-top: 2px; }
+  .status-entry .se-time { font-family: 'Share Tech Mono', monospace; font-size: 0.52rem; color: var(--muted); }
+  .claim-btn {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em;
+    padding: 3px 8px; border-radius: 3px; cursor: pointer; transition: all 0.2s;
+    margin-top: 6px;
+  }
+  .claim-btn.unclaimed { background: transparent; border: 1px solid var(--warn); color: var(--warn); }
+  .claim-btn.unclaimed:hover { background: #ffcc0018; }
+  .claim-btn.claimed { background: #00ff9d18; border: 1px solid #00ff9d44; color: var(--accent2); cursor: default; }
+
+  /* REGISTRATION */
+  .reg-list { margin-bottom: 0.8rem; }
+  .reg-entry {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 5px;
+    padding: 0.5rem 0.7rem; margin-bottom: 0.4rem;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+  .reg-entry .reg-remove {
+    background: transparent; border: none; color: var(--danger); cursor: pointer;
+    font-size: 0.7rem; padding: 0 4px; line-height: 1; opacity: 0.6; transition: opacity 0.2s;
+  }
+  .reg-entry .reg-remove:hover { opacity: 1; }
+  .mini-input {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+    padding: 0.45rem 0.6rem; color: var(--text); font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem; outline: none; width: 100%; transition: border-color 0.2s;
+    letter-spacing: 0.08em;
+  }
+  .mini-input:focus { border-color: var(--accent); }
+  .mini-btn {
+    font-family: 'Orbitron', monospace; font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 0.12em; padding: 0.4rem 0.8rem; background: var(--accent); color: var(--bg);
+    border: none; border-radius: 4px; cursor: pointer; margin-top: 0.4rem; width: 100%;
+  }
+  .mini-btn:hover { box-shadow: var(--glow); }
+  .mini-btn.danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); margin-top: 0.3rem; }
+  .form-label { font-family: 'Share Tech Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 0.25rem; display: block; }
+  .form-group { margin-bottom: 0.6rem; }
+  .err-msg { font-family: 'Share Tech Mono', monospace; font-size: 0.58rem; color: var(--danger); margin-top: 4px; display: none; }
+
+  /* COMMON LOST */
+  .cil-entry {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.6rem 0.8rem; margin-bottom: 0.45rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem;
+  }
+  .cil-main { flex: 1; }
+  .cil-id { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; color: var(--accent); }
+  .cil-item { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; color: var(--text); margin-top: 2px; }
+  .cil-date { font-family: 'Share Tech Mono', monospace; font-size: 0.52rem; color: var(--muted); margin-top: 2px; }
+  .cil-remove { background: transparent; border: none; color: var(--danger); cursor: pointer; font-size: 0.7rem; opacity: 0.6; transition: opacity 0.2s; padding: 0 4px; }
+  .cil-remove:hover { opacity: 1; }
 
   /* BUILDING DETAIL */
   #building-detail { flex-direction: column; background: var(--bg); overflow: hidden; }
@@ -196,6 +259,7 @@
     transition: border-color 0.2s, box-shadow 0.2s;
   }
   .modal-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px #00e5ff18; }
+  .modal-error { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; color: var(--danger); text-align: center; display: none; }
   .modal-actions { display: flex; gap: 0.8rem; }
   .modal-btn {
     flex: 1; font-family: 'Orbitron', monospace; font-size: 0.7rem; font-weight: 700;
@@ -206,11 +270,14 @@
   .modal-btn.secondary { background: transparent; color: var(--muted); border: 1px solid var(--border); }
   .modal-btn.secondary:hover { color: var(--text); border-color: var(--muted); }
 
-
+  .empty-msg { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; color: var(--muted); text-align: center; padding: 1.5rem 0; letter-spacing: 0.1em; }
 
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* section divider */
+  .reg-divider { border: none; border-top: 1px solid var(--border); margin: 0.8rem 0; }
 </style>
 </head>
 <body>
@@ -230,35 +297,23 @@
   <div class="sidebar">
     <div class="sidebar-logo">BEACONET<span>ADMIN CONSOLE v2.4</span></div>
     <div class="sidebar-nav">
-      <div class="nav-section">NAVIGATION</div>
-      <div class="nav-item active" onclick="setNavActive(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Dashboard
+      <div class="nav-section">MONITORING</div>
+      <div class="nav-item active" onclick="setSidePanel('logs', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Logs
       </div>
-      <div class="nav-item" onclick="setNavActive(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-        Live Tracking
-      </div>
-      <div class="nav-item" onclick="setNavActive(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-        Analytics
-      </div>
-      <div class="nav-item" onclick="setNavActive(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        Reports
+      <div class="nav-item" onclick="setSidePanel('status', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Item Status
       </div>
       <div class="nav-section">MANAGEMENT</div>
-      <div class="nav-item" onclick="setNavActive(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Devices
+      <div class="nav-item" onclick="setSidePanel('registration', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        Registration
       </div>
-      <div class="nav-item" onclick="setNavActive(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        Beacons
-      </div>
-      <div class="nav-item" onclick="setNavActive(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Alerts
+      <div class="nav-item" onclick="setSidePanel('commonlost', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        Common Lost Items
       </div>
     </div>
     <div class="sidebar-profile">
@@ -267,68 +322,72 @@
     </div>
   </div>
 
+  <!-- SIDEBAR PANELS (inside the left pane area but rendered in main) -->
   <div class="main-panel">
     <div class="topbar">
-      <div><div class="topbar-title">PROXIMITY GRID DASHBOARD</div></div>
+      <div><div class="topbar-title" id="main-panel-title">PROXIMITY GRID DASHBOARD</div></div>
       <div class="topbar-right">
         <div class="status-badge online">● ONLINE</div>
         <button class="detect-btn" id="detect-btn" onclick="startDetectFlow()">⬡ DETECT</button>
       </div>
     </div>
-    <div class="tabs">
-      <div class="tab active" onclick="switchTab(this,'buildings')">BUILDINGS</div>
-      <div class="tab" onclick="switchTab(this,'account')">ACCOUNT</div>
-      <div class="tab" onclick="switchTab(this,'settings')">SETTINGS</div>
-    </div>
 
-    <div class="tab-content active" id="tab-buildings">
-      <div class="buildings-grid" id="buildings-grid"></div>
-    </div>
-
-    <div class="tab-content" id="tab-account">
-      <div class="account-section">
-        <div class="account-card">
-          <h3>ACCOUNT INFORMATION</h3>
-          <div class="field-row"><label>FULL NAME</label><input value="Administrator User"/></div>
-          <div class="field-row"><label>EMAIL ADDRESS</label><input value="admin@beaconet.edu.ph"/></div>
-          <div class="field-row"><label>EMPLOYEE ID</label><input value="BEU-ADM-2024-001"/></div>
-          <div class="field-row"><label>ROLE</label><input value="System Administrator" readonly/></div>
-        </div>
-        <div class="account-card">
-          <h3>SECURITY</h3>
-          <div class="field-row"><label>CURRENT PASSWORD</label><input type="password" value="••••••••"/></div>
-          <div class="field-row"><label>NEW PASSWORD</label><input type="password" placeholder="Enter new password"/></div>
-          <div class="field-row"><label>CONFIRM PASSWORD</label><input type="password" placeholder="Confirm new password"/></div>
-          <button class="save-btn">SAVE CHANGES</button>
-        </div>
-        <div class="account-card">
-          <h3>SYSTEM PERMISSIONS</h3>
-          <div class="settings-row"><div><div class="settings-label">Full Grid Access</div><div class="settings-desc">VIEW AND MANAGE ALL BEACON NODES</div></div><div class="toggle on"></div></div>
-          <div class="settings-row"><div><div class="settings-label">Detection Override</div><div class="settings-desc">MANUALLY TRIGGER SCAN PROTOCOLS</div></div><div class="toggle on"></div></div>
-          <div class="settings-row"><div><div class="settings-label">Alert Management</div><div class="settings-desc">DISMISS AND ESCALATE ALERTS</div></div><div class="toggle on"></div></div>
-        </div>
+    <!-- BUILDINGS VIEW -->
+    <div id="view-buildings" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab(this,'buildings')">BUILDINGS</div>
+      </div>
+      <div class="tab-content active" id="tab-buildings">
+        <div class="buildings-grid" id="buildings-grid"></div>
       </div>
     </div>
 
-    <div class="tab-content" id="tab-settings">
-      <div class="account-section">
-        <div class="account-card">
-          <h3>SYSTEM SETTINGS</h3>
-          <div class="settings-row"><div><div class="settings-label">Auto-Scan Interval</div><div class="settings-desc">PERIODIC BACKGROUND DETECTION</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
-          <div class="settings-row"><div><div class="settings-label">Proximity Alerts</div><div class="settings-desc">PUSH NOTIFICATIONS ON DETECTION</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
-          <div class="settings-row"><div><div class="settings-label">AI Decision Support</div><div class="settings-desc">ENABLE ML-BASED ITEM PREDICTION</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
-          <div class="settings-row"><div><div class="settings-label">Debug Mode</div><div class="settings-desc">LOG VERBOSE BEACON TELEMETRY</div></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
-          <div class="settings-row"><div><div class="settings-label">Dark Theme</div><div class="settings-desc">INTERFACE COLOR SCHEME</div></div><div class="toggle on"></div></div>
+    <!-- LOGS VIEW -->
+    <div id="view-logs" style="display:none;flex:1;overflow:hidden;flex-direction:column;">
+      <div class="panel-header">DETECTION LOGS</div>
+      <div class="panel-body" id="logs-list"></div>
+    </div>
+
+    <!-- STATUS VIEW -->
+    <div id="view-status" style="display:none;flex:1;overflow:hidden;flex-direction:column;">
+      <div class="panel-header">LAST DETECTED ITEM STATUS</div>
+      <div class="panel-body" id="status-list"></div>
+    </div>
+
+    <!-- REGISTRATION VIEW -->
+    <div id="view-registration" style="display:none;flex:1;overflow:hidden;flex-direction:column;">
+      <div class="panel-header">REGISTERED STUDENT IDs</div>
+      <div class="panel-body">
+        <div class="reg-list" id="reg-list"></div>
+        <hr class="reg-divider"/>
+        <div class="form-group">
+          <label class="form-label">ADD STUDENT ID</label>
+          <input class="mini-input" id="reg-input" placeholder="e.g. G2024-01234" maxlength="32" autocomplete="off"/>
+          <div class="err-msg" id="reg-err">Already registered or invalid.</div>
         </div>
-        <div class="account-card">
-          <h3>NETWORK</h3>
-          <div class="field-row"><label>BEACON FREQUENCY (ms)</label><input value="500"/></div>
-          <div class="field-row"><label>RSSI THRESHOLD (dBm)</label><input value="-75"/></div>
-          <div class="field-row"><label>GRID UPDATE INTERVAL (s)</label><input value="30"/></div>
-          <button class="save-btn">APPLY SETTINGS</button>
-        </div>
+        <button class="mini-btn" onclick="addRegistration()">+ REGISTER</button>
       </div>
     </div>
+
+    <!-- COMMON LOST VIEW -->
+    <div id="view-commonlost" style="display:none;flex:1;overflow:hidden;flex-direction:column;">
+      <div class="panel-header">COMMONLY LOST ITEMS</div>
+      <div class="panel-body">
+        <div id="cil-list"></div>
+        <hr class="reg-divider"/>
+        <div class="form-group">
+          <label class="form-label">STUDENT ID</label>
+          <input class="mini-input" id="cil-id-input" placeholder="e.g. G2024-01234" maxlength="32" autocomplete="off"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ITEM TYPE / DESCRIPTION</label>
+          <input class="mini-input" id="cil-item-input" placeholder="e.g. Water bottle, ID card..." maxlength="64" autocomplete="off"/>
+        </div>
+        <div class="err-msg" id="cil-err" style="display:none;margin-bottom:4px;">Please fill in both fields.</div>
+        <button class="mini-btn" onclick="addCILEntry()">+ ADD ITEM</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -367,16 +426,15 @@
     <div class="modal-desc">ENTER YOUR STUDENT ID TO INITIATE<br>THE PROXIMITY SCAN PROTOCOL</div>
     <div class="modal-input-wrap">
       <div class="modal-label">STUDENT ID NUMBER</div>
-      <input class="modal-input" id="student-id-input" type="text" placeholder="e.g. BEU-2024-00123" maxlength="24" autocomplete="off"/>
+      <input class="modal-input" id="student-id-input" type="text" placeholder="e.g. G2024-00123" maxlength="32" autocomplete="off"/>
     </div>
+    <div class="modal-error" id="modal-error">STUDENT ID NOT REGISTERED. ACCESS DENIED.</div>
     <div class="modal-actions">
       <button class="modal-btn secondary" onclick="cancelDetect()">CANCEL</button>
       <button class="modal-btn primary" onclick="confirmStudentId()">PROCEED →</button>
     </div>
   </div>
 </div>
-
-
 
 <script>
 // ─── DATA ───────────────────────────────────────────────────
@@ -397,60 +455,62 @@ const BUILDINGS = [
   { id:'LR104', name:'Lecture Room', sub:'LR-104', icon:'📋', beacons:2, shape:'box' },
 ];
 
-// LR104 detection state — persists across detect cycles
-let lr104DetectResult = null; // { beacon: 1|2, pos: 'ul'|'ur'|'ll'|'lr'|'u'|'d'|'l'|'r' }
+// ─── STATE ──────────────────────────────────────────────────
+let lr104DetectResult = null;
 let scanComplete = false;
 let currentBuilding = null;
 let detectRafId = null;
 let detectCountInterval = null;
+let currentStudentId = '';
+
+// Registered student IDs (lowercase normalized internally)
+let registeredIDs = ['g2010-0100065', 'g2018-02453'];
+
+// Detection logs: { id, time, result: 'found'|'not-found'|'no-access', location? }
+let detectionLogs = [];
+
+// Status entries: { id, location, beaconInfo, time, claimed }
+let statusEntries = [];
+
+// Commonly lost items: { studentId, item, date }
+let commonLostItems = [];
 
 // ─── IDLE CANVAS ────────────────────────────────────────────
 (function initIdle() {
   const canvas = document.getElementById('idle-canvas');
   const ctx = canvas.getContext('2d');
   let W, H, beacons = [], dots = [];
-
   function resize() {
     W = canvas.width = window.innerWidth;
     H = canvas.height = window.innerHeight;
     beacons = [];
     for (let i = 0; i < 7; i++) {
-      beacons.push({
-        x: 80 + Math.random() * (W - 160), y: 80 + Math.random() * (H - 160),
-        phase: Math.random() * Math.PI * 2, ripples: [],
-        interval: 1800 + Math.random() * 2000, last: 0
-      });
+      beacons.push({ x: 80+Math.random()*(W-160), y: 80+Math.random()*(H-160), phase: Math.random()*Math.PI*2, ripples: [], interval: 1800+Math.random()*2000, last: 0 });
     }
     dots = [];
     for (let i = 0; i < 18; i++) {
-      dots.push({ x: 60 + Math.random() * (W - 120), y: 60 + Math.random() * (H - 120), alpha: 0.1 + Math.random() * 0.5, size: 2 + Math.random() * 3 });
+      dots.push({ x: 60+Math.random()*(W-120), y: 60+Math.random()*(H-120), alpha: 0.1+Math.random()*0.5, size: 2+Math.random()*3 });
     }
   }
   window.addEventListener('resize', resize);
   resize();
-
   function loop(ts) {
     requestAnimationFrame(loop);
-    ctx.clearRect(0, 0, W, H);
-    ctx.strokeStyle = '#0d3a5533'; ctx.lineWidth = 1;
-    const gs = 60;
-    for (let x = 0; x < W; x += gs) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-    for (let y = 0; y < H; y += gs) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-    dots.forEach(d => { ctx.beginPath(); ctx.arc(d.x, d.y, d.size, 0, Math.PI*2); ctx.fillStyle = `rgba(0,229,255,${d.alpha})`; ctx.fill(); });
-    beacons.forEach(b => {
-      if (ts - b.last > b.interval) { b.last = ts; b.ripples.push({ r: 0, alpha: 0.9, maxR: 120 + Math.random() * 80 }); }
-      b.ripples = b.ripples.filter(r => r.alpha > 0.01);
-      b.ripples.forEach(r => {
-        r.r += 1.4; r.alpha = Math.max(0, 0.9 * (1 - r.r / r.maxR));
-        ctx.beginPath(); ctx.arc(b.x, b.y, r.r, 0, Math.PI*2);
-        ctx.strokeStyle = `rgba(0,229,255,${r.alpha * 0.7})`; ctx.lineWidth = 2; ctx.stroke();
-      });
-      const pulse = 0.5 + 0.5 * Math.sin(ts * 0.002 + b.phase);
-      ctx.beginPath(); ctx.arc(b.x, b.y, 5 + pulse * 3, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(0,229,255,${0.6 + pulse * 0.4})`; ctx.fill();
-      ctx.strokeStyle = `rgba(0,229,255,${0.4 + pulse * 0.3})`; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(b.x-12,b.y); ctx.lineTo(b.x+12,b.y); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(b.x,b.y-12); ctx.lineTo(b.x,b.y+12); ctx.stroke();
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='#0d3a5533'; ctx.lineWidth=1;
+    const gs=60;
+    for(let x=0;x<W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    dots.forEach(d=>{ctx.beginPath();ctx.arc(d.x,d.y,d.size,0,Math.PI*2);ctx.fillStyle=`rgba(0,229,255,${d.alpha})`;ctx.fill();});
+    beacons.forEach(b=>{
+      if(ts-b.last>b.interval){b.last=ts;b.ripples.push({r:0,alpha:0.9,maxR:120+Math.random()*80});}
+      b.ripples=b.ripples.filter(r=>r.alpha>0.01);
+      b.ripples.forEach(r=>{r.r+=1.4;r.alpha=Math.max(0,0.9*(1-r.r/r.maxR));ctx.beginPath();ctx.arc(b.x,b.y,r.r,0,Math.PI*2);ctx.strokeStyle=`rgba(0,229,255,${r.alpha*0.7})`;ctx.lineWidth=2;ctx.stroke();});
+      const pulse=0.5+0.5*Math.sin(ts*0.002+b.phase);
+      ctx.beginPath();ctx.arc(b.x,b.y,5+pulse*3,0,Math.PI*2);ctx.fillStyle=`rgba(0,229,255,${0.6+pulse*0.4})`;ctx.fill();
+      ctx.strokeStyle=`rgba(0,229,255,${0.4+pulse*0.3})`;ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(b.x-12,b.y);ctx.lineTo(b.x+12,b.y);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(b.x,b.y-12);ctx.lineTo(b.x,b.y+12);ctx.stroke();
     });
   }
   requestAnimationFrame(loop);
@@ -461,15 +521,10 @@ function renderBuildings(showDetected) {
   const grid = document.getElementById('buildings-grid');
   grid.innerHTML = '';
   BUILDINGS.forEach(b => {
-    // Only LR104 can show detected after scan
-    const detected = showDetected && b.id === 'LR104' && lr104DetectResult !== null;
+    const detected = showDetected && b.id==='LR104' && lr104DetectResult!==null;
     const card = document.createElement('div');
-    card.className = 'building-card' + (detected ? ' detected' : '');
-    card.innerHTML = `
-      <div class="building-icon">${b.icon}</div>
-      <div class="building-name">${b.name}${b.sub ? `<br><span style="color:var(--muted);font-size:0.75rem">${b.sub}</span>` : ''}</div>
-      <div class="building-id">${b.id}</div>
-      <div class="beacon-count">⬡ ${b.beacons} BEACONS</div>`;
+    card.className = 'building-card'+(detected?' detected':'');
+    card.innerHTML = `<div class="building-icon">${b.icon}</div><div class="building-name">${b.name}${b.sub?`<br><span style="color:var(--muted);font-size:0.75rem">${b.sub}</span>`:''}</div><div class="building-id">${b.id}</div><div class="beacon-count">⬡ ${b.beacons} BEACONS</div>`;
     card.onclick = () => openBuilding(b);
     grid.appendChild(card);
   });
@@ -486,41 +541,71 @@ function goBack() {
   document.getElementById('admin').classList.remove('hidden');
   currentBuilding = null;
 }
-function setNavActive(el) {
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  el.classList.add('active');
+
+const PANEL_TITLES = {
+  buildings: 'PROXIMITY GRID DASHBOARD',
+  logs: 'DETECTION LOGS',
+  status: 'ITEM STATUS TRACKER',
+  registration: 'STUDENT REGISTRATION',
+  commonlost: 'COMMON LOST ITEMS'
+};
+
+function setSidePanel(name, el) {
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const views = ['buildings','logs','status','registration','commonlost'];
+  views.forEach(v=>{
+    const el2 = document.getElementById('view-'+v);
+    if(el2) el2.style.display = (v===name)?'flex':'none';
+  });
+  document.getElementById('main-panel-title').textContent = PANEL_TITLES[name] || 'DASHBOARD';
+  if(name==='logs') renderLogs();
+  if(name==='status') renderStatus();
+  if(name==='registration') renderRegistration();
+  if(name==='commonlost') renderCIL();
+  if(name==='buildings') renderBuildings(scanComplete);
 }
+
+// Init: show buildings
+setSidePanel('buildings', document.querySelector('.nav-item.active'));
+
 function switchTab(el, name) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('tab-' + name).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
 }
 
 // ─── DETECT FLOW ─────────────────────────────────────────────
 function startDetectFlow() {
-  // Step 1: Show student ID modal
   document.getElementById('student-id-input').value = '';
+  document.getElementById('modal-error').style.display = 'none';
   document.getElementById('student-id-modal').classList.add('show');
-  setTimeout(() => document.getElementById('student-id-input').focus(), 100);
+  setTimeout(()=>document.getElementById('student-id-input').focus(), 100);
 }
 
 function cancelDetect() {
   document.getElementById('student-id-modal').classList.remove('show');
 }
 
-document.getElementById('student-id-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') confirmStudentId();
+document.getElementById('student-id-input').addEventListener('keydown', e=>{
+  if(e.key==='Enter') confirmStudentId();
 });
 
 function confirmStudentId() {
   const val = document.getElementById('student-id-input').value.trim();
-  if (!val) {
-    document.getElementById('student-id-input').focus();
+  if(!val){ document.getElementById('student-id-input').focus(); return; }
+  const normalized = val.toLowerCase();
+
+  if(!registeredIDs.includes(normalized)) {
+    // Log denied access
+    addLog(val, 'no-access', null);
+    document.getElementById('modal-error').style.display = 'block';
     return;
   }
+  document.getElementById('modal-error').style.display = 'none';
+  currentStudentId = val;
   document.getElementById('student-id-modal').classList.remove('show');
-  // Step 2: silently listen for hidden placement code, then Enter
   startHiddenPlacementListener();
 }
 
@@ -535,298 +620,302 @@ function startHiddenPlacementListener() {
 }
 
 document.addEventListener('keydown', function(e) {
-  if (!hiddenListening) return;
-  // Ignore modifier-only keys
-  if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' || e.key === 'Meta') return;
-
-  if (e.key === 'Enter') {
+  if(!hiddenListening) return;
+  if(e.key==='Shift'||e.key==='Control'||e.key==='Alt'||e.key==='Meta') return;
+  if(e.key==='Enter') {
     const raw = hiddenBuffer.trim().toLowerCase();
     const beaconChar = raw[0];
     const posCode = raw.slice(1);
-    if (['1','2'].includes(beaconChar) && VALID_POS.includes(posCode)) {
+    if(['1','2'].includes(beaconChar) && VALID_POS.includes(posCode)) {
       hiddenListening = false;
       hiddenBuffer = '';
       lr104DetectResult = { beacon: parseInt(beaconChar), pos: posCode };
-      runRadarScan();
+      runRadarScan(true);
     } else {
-      // Invalid — reset buffer silently and keep listening
       hiddenBuffer = '';
+      runRadarScan(false);
     }
     return;
   }
-
-  if (e.key === 'Backspace') {
-    hiddenBuffer = hiddenBuffer.slice(0, -1);
-    return;
-  }
-
-  // Only accept printable single chars
-  if (e.key.length === 1) {
-    hiddenBuffer += e.key;
-    // Cap buffer at 4 chars max
-    if (hiddenBuffer.length > 4) hiddenBuffer = hiddenBuffer.slice(-4);
-  }
+  if(e.key==='Backspace'){ hiddenBuffer=hiddenBuffer.slice(0,-1); return; }
+  if(e.key.length===1){ hiddenBuffer+=e.key; if(hiddenBuffer.length>4) hiddenBuffer=hiddenBuffer.slice(-4); }
 });
 
-function runRadarScan() {
+function runRadarScan(itemFound) {
   const btn = document.getElementById('detect-btn');
   btn.disabled = true;
-
   const overlay = document.getElementById('detect-overlay');
   overlay.classList.add('show');
-
   const canvas = document.getElementById('detect-canvas');
   const ctx = canvas.getContext('2d');
-  const CX = 150, CY = 150, R = 120;
-  let angle = 0;
-
-  // Random countdown: 10 or 20 seconds
-  let countdown = Math.random() < 0.5 ? 10 : 20;
+  const CX=150, CY=150, R=120;
+  let angle=0;
+  let countdown = Math.random()<0.5?10:20;
   document.getElementById('detect-timer').textContent = countdown;
-
-  detectCountInterval = setInterval(() => {
+  detectCountInterval = setInterval(()=>{
     countdown--;
-    document.getElementById('detect-timer').textContent = Math.max(0, countdown);
-    if (countdown <= 0) clearInterval(detectCountInterval);
+    document.getElementById('detect-timer').textContent = Math.max(0,countdown);
+    if(countdown<=0) clearInterval(detectCountInterval);
   }, 1000);
-
-  const blips = [];
+  const blips=[];
   function drawRadar() {
-    ctx.clearRect(0, 0, 300, 300);
-    ctx.fillStyle = '#030d14'; ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI*2); ctx.fill();
-    for (let i = 1; i <= 4; i++) { ctx.beginPath(); ctx.arc(CX, CY, R*i/4, 0, Math.PI*2); ctx.strokeStyle = '#0d3a55'; ctx.lineWidth = 1; ctx.stroke(); }
-    ctx.strokeStyle = '#0d3a55'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(CX-R,CY); ctx.lineTo(CX+R,CY); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(CX,CY-R); ctx.lineTo(CX,CY+R); ctx.stroke();
-    for (let i = 0; i < 60; i++) {
-      const a = angle - i * 0.02;
-      ctx.beginPath(); ctx.moveTo(CX, CY); ctx.arc(CX, CY, R, a - 0.02, a); ctx.closePath();
-      ctx.fillStyle = `rgba(0,229,255,${(60-i)/60*0.35})`; ctx.fill();
-    }
-    ctx.beginPath(); ctx.moveTo(CX, CY); ctx.lineTo(CX + Math.cos(angle)*R, CY + Math.sin(angle)*R);
-    ctx.strokeStyle = 'rgba(0,229,255,0.9)'; ctx.lineWidth = 2; ctx.stroke();
-    blips.forEach((b, i) => {
-      b.life -= 0.012;
-      if (b.life <= 0) { blips.splice(i, 1); return; }
-      ctx.beginPath(); ctx.arc(b.x, b.y, 4, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(0,255,157,${b.life})`; ctx.fill();
-      ctx.beginPath(); ctx.arc(b.x, b.y, 8*(1-b.life), 0, Math.PI*2);
-      ctx.strokeStyle = `rgba(0,255,157,${b.life*0.5})`; ctx.lineWidth = 1; ctx.stroke();
-    });
-    if (Math.random() < 0.04) {
-      const a2 = Math.random() * Math.PI * 2, r2 = Math.random() * (R-15) + 10;
-      blips.push({ x: CX + Math.cos(a2)*r2, y: CY + Math.sin(a2)*r2, life: 1 });
-    }
-    ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI*2);
-    ctx.strokeStyle = '#00e5ff55'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.clearRect(0,0,300,300);
+    ctx.fillStyle='#030d14'; ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2); ctx.fill();
+    for(let i=1;i<=4;i++){ctx.beginPath();ctx.arc(CX,CY,R*i/4,0,Math.PI*2);ctx.strokeStyle='#0d3a55';ctx.lineWidth=1;ctx.stroke();}
+    ctx.strokeStyle='#0d3a55'; ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(CX-R,CY);ctx.lineTo(CX+R,CY);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(CX,CY-R);ctx.lineTo(CX,CY+R);ctx.stroke();
+    for(let i=0;i<60;i++){const a=angle-i*0.02;ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,a-0.02,a);ctx.closePath();ctx.fillStyle=`rgba(0,229,255,${(60-i)/60*0.35})`;ctx.fill();}
+    ctx.beginPath();ctx.moveTo(CX,CY);ctx.lineTo(CX+Math.cos(angle)*R,CY+Math.sin(angle)*R);ctx.strokeStyle='rgba(0,229,255,0.9)';ctx.lineWidth=2;ctx.stroke();
+    blips.forEach((b,i)=>{b.life-=0.012;if(b.life<=0){blips.splice(i,1);return;}ctx.beginPath();ctx.arc(b.x,b.y,4,0,Math.PI*2);ctx.fillStyle=`rgba(0,255,157,${b.life})`;ctx.fill();ctx.beginPath();ctx.arc(b.x,b.y,8*(1-b.life),0,Math.PI*2);ctx.strokeStyle=`rgba(0,255,157,${b.life*0.5})`;ctx.lineWidth=1;ctx.stroke();});
+    if(Math.random()<0.04){const a2=Math.random()*Math.PI*2,r2=Math.random()*(R-15)+10;blips.push({x:CX+Math.cos(a2)*r2,y:CY+Math.sin(a2)*r2,life:1});}
+    ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);ctx.strokeStyle='#00e5ff55';ctx.lineWidth=2;ctx.stroke();
   }
-
-  function animLoop() { angle += 0.04; drawRadar(); detectRafId = requestAnimationFrame(animLoop); }
+  function animLoop(){angle+=0.04;drawRadar();detectRafId=requestAnimationFrame(animLoop);}
   animLoop();
 
-  setTimeout(() => {
+  setTimeout(()=>{
     cancelAnimationFrame(detectRafId);
     overlay.classList.remove('show');
     scanComplete = true;
+
+    if(itemFound && lr104DetectResult) {
+      const locStr = `LR-104 · BCN-${lr104DetectResult.beacon} [${lr104DetectResult.pos.toUpperCase()}]`;
+      addLog(currentStudentId, 'found', locStr);
+      addStatusEntry(currentStudentId, locStr, lr104DetectResult);
+    } else {
+      addLog(currentStudentId, 'not-found', null);
+    }
+
     renderBuildings(true);
-    btn.textContent = '✓ SCANNED';
-    btn.disabled = false;
+    btn.textContent='✓ SCANNED';
+    btn.disabled=false;
     btn.classList.add('active-btn');
-    // Reset button after a moment so user can scan again
-    setTimeout(() => {
-      btn.textContent = '⬡ DETECT';
-      btn.classList.remove('active-btn');
-    }, 3000);
-  }, countdown * 1000 + 1000); // +1s buffer
+    setTimeout(()=>{btn.textContent='⬡ DETECT';btn.classList.remove('active-btn');},3000);
+  }, countdown*1000+1000);
 }
+
+// ─── LOGS ────────────────────────────────────────────────────
+function addLog(studentId, result, location) {
+  detectionLogs.unshift({ id: studentId, result, location, time: new Date() });
+}
+
+function renderLogs() {
+  const container = document.getElementById('logs-list');
+  if(detectionLogs.length===0){ container.innerHTML='<div class="empty-msg">NO LOGS YET</div>'; return; }
+  container.innerHTML = '';
+  detectionLogs.forEach(log=>{
+    const el = document.createElement('div');
+    el.className='log-entry';
+    const resLabel = log.result==='found'?'ITEM DETECTED': log.result==='not-found'?'NOT FOUND':'ACCESS DENIED';
+    el.innerHTML=`<div class="log-id">${log.id.toUpperCase()}</div>
+      <div class="log-time">${formatTime(log.time)}</div>
+      ${log.location?`<div style="font-size:0.58rem;color:var(--muted);margin-top:3px;">${log.location}</div>`:''}
+      <div class="log-result ${log.result}">${resLabel}</div>`;
+    container.appendChild(el);
+  });
+}
+
+// ─── STATUS ──────────────────────────────────────────────────
+function addStatusEntry(studentId, location, detectResult) {
+  statusEntries.unshift({ id: studentId, location, detectResult, time: new Date(), claimed: false });
+}
+
+function renderStatus() {
+  const container = document.getElementById('status-list');
+  if(statusEntries.length===0){ container.innerHTML='<div class="empty-msg">NO DETECTED ITEMS YET</div>'; return; }
+  container.innerHTML='';
+  statusEntries.forEach((entry, idx)=>{
+    const el=document.createElement('div');
+    el.className='status-entry';
+    el.innerHTML=`<div class="se-id">${entry.id.toUpperCase()}</div>
+      <div class="se-loc">📍 ${entry.location}</div>
+      <div class="se-time">${formatTime(entry.time)}</div>
+      <button class="claim-btn ${entry.claimed?'claimed':'unclaimed'}" onclick="toggleClaim(${idx})">${entry.claimed?'✓ CLAIMED':'MARK AS CLAIMED'}</button>`;
+    container.appendChild(el);
+  });
+}
+
+function toggleClaim(idx) {
+  if(!statusEntries[idx].claimed){
+    statusEntries[idx].claimed = true;
+    renderStatus();
+  }
+}
+
+// ─── REGISTRATION ────────────────────────────────────────────
+function renderRegistration() {
+  const list = document.getElementById('reg-list');
+  list.innerHTML='';
+  if(registeredIDs.length===0){list.innerHTML='<div class="empty-msg">NO REGISTERED IDs</div>';return;}
+  registeredIDs.forEach((rid, idx)=>{
+    const el=document.createElement('div');
+    el.className='reg-entry';
+    el.innerHTML=`<span>${rid.toUpperCase()}</span><button class="reg-remove" onclick="removeRegistration(${idx})" title="Remove">✕</button>`;
+    list.appendChild(el);
+  });
+}
+
+function addRegistration() {
+  const input = document.getElementById('reg-input');
+  const errEl = document.getElementById('reg-err');
+  const val = input.value.trim().toLowerCase();
+  if(!val){ errEl.style.display='block'; errEl.textContent='Please enter a student ID.'; return; }
+  if(registeredIDs.includes(val)){ errEl.style.display='block'; errEl.textContent='This ID is already registered.'; return; }
+  errEl.style.display='none';
+  registeredIDs.push(val);
+  input.value='';
+  renderRegistration();
+}
+
+function removeRegistration(idx) {
+  registeredIDs.splice(idx,1);
+  renderRegistration();
+}
+
+document.getElementById('reg-input').addEventListener('keydown', e=>{if(e.key==='Enter')addRegistration();});
+
+// ─── COMMON LOST ITEMS ───────────────────────────────────────
+function renderCIL() {
+  const container = document.getElementById('cil-list');
+  if(commonLostItems.length===0){container.innerHTML='<div class="empty-msg">NO ENTRIES YET</div>';return;}
+  container.innerHTML='';
+  commonLostItems.forEach((entry, idx)=>{
+    const el=document.createElement('div');
+    el.className='cil-entry';
+    el.innerHTML=`<div class="cil-main">
+      <div class="cil-id">${entry.studentId.toUpperCase()}</div>
+      <div class="cil-item">📦 ${entry.item}</div>
+      <div class="cil-date">${formatDate(entry.date)}</div>
+    </div>
+    <button class="cil-remove" onclick="removeCIL(${idx})" title="Remove">✕</button>`;
+    container.appendChild(el);
+  });
+}
+
+function addCILEntry() {
+  const idIn = document.getElementById('cil-id-input');
+  const itemIn = document.getElementById('cil-item-input');
+  const errEl = document.getElementById('cil-err');
+  const sid = idIn.value.trim();
+  const item = itemIn.value.trim();
+  if(!sid||!item){errEl.style.display='block';return;}
+  errEl.style.display='none';
+  commonLostItems.unshift({studentId:sid, item, date:new Date()});
+  idIn.value=''; itemIn.value='';
+  renderCIL();
+}
+
+function removeCIL(idx){commonLostItems.splice(idx,1);renderCIL();}
+
+document.getElementById('cil-item-input').addEventListener('keydown', e=>{if(e.key==='Enter')addCILEntry();});
 
 // ─── BUILDING DETAIL ─────────────────────────────────────────
 function openBuilding(b) {
-  currentBuilding = b;
+  currentBuilding=b;
   document.getElementById('admin').classList.add('hidden');
   document.getElementById('building-detail').classList.remove('hidden');
-  document.getElementById('detail-title').textContent = b.name + (b.sub ? ' — ' + b.sub : '');
+  document.getElementById('detail-title').textContent=b.name+(b.sub?' — '+b.sub:'');
   drawBuilding(b);
 }
 
 function drawBuilding(b) {
-  const canvas = document.getElementById('building-canvas');
-  const ctx = canvas.getContext('2d');
-
-  const bodyW = document.querySelector('.detail-body').clientWidth;
-  const bodyH = document.querySelector('.detail-body').clientHeight;
-  const SIZE = Math.min(bodyW - 80, bodyH - 100, 540);
-  canvas.width = SIZE;
-  canvas.height = Math.round(SIZE * 0.68);
-  const W = canvas.width, H = canvas.height;
-
-  ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#071828';
-  ctx.fillRect(0, 0, W, H);
-
-  // Grid lines
-  ctx.strokeStyle = '#0d3a5540'; ctx.lineWidth = 1;
-  const gs = 26;
-  for (let x = 0; x <= W; x += gs) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-  for (let y = 0; y <= H; y += gs) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-
-  // Build shape path
-  const pad = 38;
+  const canvas=document.getElementById('building-canvas');
+  const ctx=canvas.getContext('2d');
+  const bodyW=document.querySelector('.detail-body').clientWidth;
+  const bodyH=document.querySelector('.detail-body').clientHeight;
+  const SIZE=Math.min(bodyW-80,bodyH-100,540);
+  canvas.width=SIZE; canvas.height=Math.round(SIZE*0.68);
+  const W=canvas.width, H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#071828'; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='#0d3a5540'; ctx.lineWidth=1;
+  const gs=26;
+  for(let x=0;x<=W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<=H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  const pad=38;
   let path;
-  if (b.shape === 'box' || b.id === 'LR104') {
-    path = [[pad, pad], [W-pad, pad], [W-pad, H-pad], [pad, H-pad]];
-  } else if (b.shape === 'rect') {
-    path = [[pad,pad],[W-pad,pad],[W-pad,H-pad],[pad,H-pad]];
-  } else {
-    path = buildingShape(b.id, W, H, pad);
-  }
-
-  // Draw filled shape
-  ctx.beginPath();
-  ctx.moveTo(path[0][0], path[0][1]);
-  for (let i = 1; i < path.length; i++) ctx.lineTo(path[i][0], path[i][1]);
-  ctx.closePath();
-  ctx.fillStyle = '#0c243a'; ctx.fill();
-  ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2; ctx.stroke();
-
-  const xs = path.map(p => p[0]), ys = path.map(p => p[1]);
-  const minX = Math.min(...xs), maxX = Math.max(...xs);
-  const minY = Math.min(...ys), maxY = Math.max(...ys);
-
-  // ── LR104: 2 beacons near the top ──────────────────────────
+  if(b.shape==='box'||b.id==='LR104'){path=[[pad,pad],[W-pad,pad],[W-pad,H-pad],[pad,H-pad]];}
+  else if(b.shape==='rect'){path=[[pad,pad],[W-pad,pad],[W-pad,H-pad],[pad,H-pad]];}
+  else{path=buildingShape(b.id,W,H,pad);}
+  ctx.beginPath();ctx.moveTo(path[0][0],path[0][1]);for(let i=1;i<path.length;i++)ctx.lineTo(path[i][0],path[i][1]);ctx.closePath();
+  ctx.fillStyle='#0c243a';ctx.fill();ctx.strokeStyle='#00e5ff';ctx.lineWidth=2;ctx.stroke();
+  const xs=path.map(p=>p[0]),ys=path.map(p=>p[1]);
+  const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);
   let beaconPositions;
-  if (b.id === 'LR104') {
-    // Two beacons placed near the top, horizontally spaced, inset from border
-    const bY = minY + (maxY - minY) * 0.22; // 22% from top = "near top but not at border"
-    const bX1 = minX + (maxX - minX) * 0.28; // left beacon
-    const bX2 = minX + (maxX - minX) * 0.72; // right beacon
-    beaconPositions = [[bX1, bY], [bX2, bY]];
+  if(b.id==='LR104'){
+    const bY=minY+(maxY-minY)*0.22;
+    beaconPositions=[[minX+(maxX-minX)*0.28,bY],[minX+(maxX-minX)*0.72,bY]];
   } else {
-    const innerPad = 22;
-    beaconPositions = distributePoints(b.beacons, minX + innerPad, maxX - innerPad, minY + innerPad, maxY - innerPad);
+    beaconPositions=distributePoints(b.beacons,minX+22,maxX-22,minY+22,maxY-22);
   }
-
-  // Draw beacons
-  beaconPositions.forEach(([bx, by], idx) => {
-    ctx.beginPath(); ctx.arc(bx, by, 20, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(0,229,255,0.12)'; ctx.lineWidth = 1.5; ctx.stroke();
-    ctx.beginPath(); ctx.arc(bx, by, 12, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(0,229,255,0.28)'; ctx.lineWidth = 1.5; ctx.stroke();
-    ctx.beginPath(); ctx.arc(bx, by, 7, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(0,229,255,0.55)'; ctx.lineWidth = 1.5; ctx.stroke();
-    ctx.beginPath(); ctx.arc(bx, by, 4, 0, Math.PI*2);
-    ctx.fillStyle = '#00e5ff'; ctx.fill();
-    ctx.strokeStyle = 'rgba(0,229,255,0.45)'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(bx-11,by); ctx.lineTo(bx+11,by); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(bx,by-11); ctx.lineTo(bx,by+11); ctx.stroke();
-    ctx.fillStyle = 'rgba(0,229,255,0.4)';
-    ctx.font = '7px "Share Tech Mono", monospace';
-    ctx.fillText('BCN', bx+9, by-7);
-    if (b.id === 'LR104') {
-      // Label each beacon 1 or 2
-      ctx.fillStyle = 'rgba(0,229,255,0.7)';
-      ctx.font = 'bold 9px "Share Tech Mono", monospace';
-      ctx.fillText(`B${idx+1}`, bx-4, by+20);
-    }
+  beaconPositions.forEach(([bx,by],idx)=>{
+    ctx.beginPath();ctx.arc(bx,by,20,0,Math.PI*2);ctx.strokeStyle='rgba(0,229,255,0.12)';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.beginPath();ctx.arc(bx,by,12,0,Math.PI*2);ctx.strokeStyle='rgba(0,229,255,0.28)';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.beginPath();ctx.arc(bx,by,7,0,Math.PI*2);ctx.strokeStyle='rgba(0,229,255,0.55)';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.beginPath();ctx.arc(bx,by,4,0,Math.PI*2);ctx.fillStyle='#00e5ff';ctx.fill();
+    ctx.strokeStyle='rgba(0,229,255,0.45)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(bx-11,by);ctx.lineTo(bx+11,by);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(bx,by-11);ctx.lineTo(bx,by+11);ctx.stroke();
+    ctx.fillStyle='rgba(0,229,255,0.4)';ctx.font='7px "Share Tech Mono", monospace';ctx.fillText('BCN',bx+9,by-7);
+    if(b.id==='LR104'){ctx.fillStyle='rgba(0,229,255,0.7)';ctx.font='bold 9px "Share Tech Mono", monospace';ctx.fillText(`B${idx+1}`,bx-4,by+20);}
   });
-
-  // ── LR104 detected item ─────────────────────────────────────
-  if (b.id === 'LR104' && scanComplete && lr104DetectResult !== null) {
-    const { beacon, pos } = lr104DetectResult;
-    const [bcnX, bcnY] = beaconPositions[beacon - 1];
-    const OFFSET = 55; // pixel offset from beacon center
-
-    let dx = 0, dy = 0;
-    switch (pos) {
-      case 'u':  dx =  0;      dy = -OFFSET; break;
-      case 'd':  dx =  0;      dy =  OFFSET; break;
-      case 'l':  dx = -OFFSET; dy =  0;      break;
-      case 'r':  dx =  OFFSET; dy =  0;      break;
-      case 'ul': dx = -OFFSET * 0.72; dy = -OFFSET * 0.72; break;
-      case 'ur': dx =  OFFSET * 0.72; dy = -OFFSET * 0.72; break;
-      case 'll': dx = -OFFSET * 0.72; dy =  OFFSET * 0.72; break;
-      case 'lr': dx =  OFFSET * 0.72; dy =  OFFSET * 0.72; break;
-    }
-
-    let rx = bcnX + dx, ry = bcnY + dy;
-    // Clamp within room bounds
-    rx = Math.max(minX + 14, Math.min(maxX - 14, rx));
-    ry = Math.max(minY + 14, Math.min(maxY - 14, ry));
-
-    // Dashed line from beacon to item
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath(); ctx.moveTo(bcnX, bcnY); ctx.lineTo(rx, ry);
-    ctx.strokeStyle = 'rgba(255,61,90,0.4)'; ctx.lineWidth = 1.5; ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Glow halo
-    const grad = ctx.createRadialGradient(rx, ry, 0, rx, ry, 24);
-    grad.addColorStop(0, 'rgba(255,61,90,0.55)');
-    grad.addColorStop(0.5, 'rgba(255,61,90,0.18)');
-    grad.addColorStop(1, 'rgba(255,61,90,0)');
-    ctx.beginPath(); ctx.arc(rx, ry, 24, 0, Math.PI*2);
-    ctx.fillStyle = grad; ctx.fill();
-
-    ctx.beginPath(); ctx.arc(rx, ry, 15, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(255,61,90,0.45)'; ctx.lineWidth = 1.5; ctx.stroke();
-    ctx.beginPath(); ctx.arc(rx, ry, 9, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(255,61,90,0.75)'; ctx.lineWidth = 1.5; ctx.stroke();
-    ctx.beginPath(); ctx.arc(rx, ry, 5, 0, Math.PI*2);
-    ctx.fillStyle = '#ff3d5a'; ctx.fill();
-    ctx.beginPath(); ctx.arc(rx, ry, 2, 0, Math.PI*2);
-    ctx.fillStyle = '#fff'; ctx.fill();
-
-    // Label
-    ctx.font = 'bold 8px "Share Tech Mono", monospace';
-    const labelW = ctx.measureText('LOST ITEM').width;
-    const lx = (rx + 13 + labelW < W - 8) ? rx + 13 : rx - 13 - labelW;
-    ctx.fillStyle = '#ff3d5a';
-    ctx.fillText('LOST ITEM', lx, ry - 8);
-
-    // Beacon indicator label
-    ctx.fillStyle = 'rgba(255,61,90,0.6)';
-    ctx.font = '7px "Share Tech Mono", monospace';
-    ctx.fillText(`NEAR BCN-${beacon} [${pos.toUpperCase()}]`, lx, ry + 4);
+  if(b.id==='LR104'&&scanComplete&&lr104DetectResult!==null){
+    const{beacon,pos}=lr104DetectResult;
+    const[bcnX,bcnY]=beaconPositions[beacon-1];
+    const OFFSET=55;
+    let dx=0,dy=0;
+    switch(pos){case'u':dy=-OFFSET;break;case'd':dy=OFFSET;break;case'l':dx=-OFFSET;break;case'r':dx=OFFSET;break;case'ul':dx=-OFFSET*0.72;dy=-OFFSET*0.72;break;case'ur':dx=OFFSET*0.72;dy=-OFFSET*0.72;break;case'll':dx=-OFFSET*0.72;dy=OFFSET*0.72;break;case'lr':dx=OFFSET*0.72;dy=OFFSET*0.72;break;}
+    let rx=Math.max(minX+14,Math.min(maxX-14,bcnX+dx)),ry=Math.max(minY+14,Math.min(maxY-14,bcnY+dy));
+    ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(bcnX,bcnY);ctx.lineTo(rx,ry);ctx.strokeStyle='rgba(255,61,90,0.4)';ctx.lineWidth=1.5;ctx.stroke();ctx.setLineDash([]);
+    const grad=ctx.createRadialGradient(rx,ry,0,rx,ry,24);grad.addColorStop(0,'rgba(255,61,90,0.55)');grad.addColorStop(0.5,'rgba(255,61,90,0.18)');grad.addColorStop(1,'rgba(255,61,90,0)');
+    ctx.beginPath();ctx.arc(rx,ry,24,0,Math.PI*2);ctx.fillStyle=grad;ctx.fill();
+    ctx.beginPath();ctx.arc(rx,ry,15,0,Math.PI*2);ctx.strokeStyle='rgba(255,61,90,0.45)';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.beginPath();ctx.arc(rx,ry,9,0,Math.PI*2);ctx.strokeStyle='rgba(255,61,90,0.75)';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.beginPath();ctx.arc(rx,ry,5,0,Math.PI*2);ctx.fillStyle='#ff3d5a';ctx.fill();
+    ctx.beginPath();ctx.arc(rx,ry,2,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
+    ctx.font='bold 8px "Share Tech Mono", monospace';
+    const labelW=ctx.measureText('LOST ITEM').width;
+    const lx=(rx+13+labelW<W-8)?rx+13:rx-13-labelW;
+    ctx.fillStyle='#ff3d5a';ctx.fillText('LOST ITEM',lx,ry-8);
+    ctx.fillStyle='rgba(255,61,90,0.6)';ctx.font='7px "Share Tech Mono", monospace';ctx.fillText(`NEAR BCN-${beacon} [${pos.toUpperCase()}]`,lx,ry+4);
   }
 }
 
-function distributePoints(n, x0, x1, y0, y1) {
-  const pts = [];
-  const cols = Math.max(1, Math.ceil(Math.sqrt(n * (x1-x0) / Math.max(1, y1-y0))));
-  const rows = Math.ceil(n / cols);
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      if (pts.length >= n) break;
-      pts.push([
-        x0 + (c + 0.5) * (x1-x0) / cols,
-        y0 + (r + 0.5) * (y1-y0) / rows
-      ]);
-    }
-  }
+function distributePoints(n,x0,x1,y0,y1){
+  const pts=[];const cols=Math.max(1,Math.ceil(Math.sqrt(n*(x1-x0)/Math.max(1,y1-y0))));const rows=Math.ceil(n/cols);
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){if(pts.length>=n)break;pts.push([x0+(c+0.5)*(x1-x0)/cols,y0+(r+0.5)*(y1-y0)/rows]);}
   return pts;
 }
 
-function buildingShape(id, W, H, pad) {
-  const p = pad;
-  const shapes = {
-    'B01': [[p,p+H*0.2],[p+W*0.4,p+H*0.2],[p+W*0.4,p],[W-p,p],[W-p,H-p],[p,H-p]],
-    'B02': [[p,p+H*0.15],[p+W*0.2,p+H*0.15],[p+W*0.2,p],[W-p-W*0.2,p],[W-p-W*0.2,p+H*0.15],[W-p,p+H*0.15],[W-p,H-p],[p,H-p]],
-    'B03': [[p+W*0.15,p],[W-p-W*0.15,p],[W-p-W*0.15,p+H*0.35],[W-p,p+H*0.35],[W-p,p+H*0.65],[W-p-W*0.15,p+H*0.65],[W-p-W*0.15,H-p],[p+W*0.15,H-p],[p+W*0.15,p+H*0.65],[p,p+H*0.65],[p,p+H*0.35],[p+W*0.15,p+H*0.35]],
-    'B04': [[p+W*0.1,p],[W-p,p],[W-p,H-p-H*0.15],[W-p-W*0.1,H-p],[p,H-p],[p,p+H*0.15]],
-    'B05': [[p*0.5,H-p],[W-p*0.5,H-p],[W-p*1.5,p],[p*1.5,p]],
-    'B06': [[p,p],[W-p,p],[W-p,H-p],[p,H-p]],
-    'B07': [[p,p+H*0.3],[p+W*0.25,p],[W-p,p],[W-p,H-p],[p,H-p]],
-    'B08': [[p+W*0.15,p],[W-p,p],[W-p,H-p-H*0.15],[W-p-W*0.15,H-p],[p,H-p],[p,p]],
-    'B09': [[p,p],[W-p-W*0.3,p],[W-p-W*0.3,p+H*0.4],[W-p,p+H*0.4],[W-p,H-p],[p,H-p]],
-    'B12': [[p,p],[W-p,p],[W-p,p+H*0.5],[p+W*0.4,p+H*0.5],[p+W*0.4,H-p],[p,H-p]],
-    'B13': [[p+W*0.1,p],[W-p-W*0.1,p],[W-p,p+H*0.1],[W-p,H-p],[p,H-p],[p,p+H*0.1]],
+function buildingShape(id,W,H,pad){
+  const p=pad;
+  const shapes={
+    'B01':[[p,p+H*0.2],[p+W*0.4,p+H*0.2],[p+W*0.4,p],[W-p,p],[W-p,H-p],[p,H-p]],
+    'B02':[[p,p+H*0.15],[p+W*0.2,p+H*0.15],[p+W*0.2,p],[W-p-W*0.2,p],[W-p-W*0.2,p+H*0.15],[W-p,p+H*0.15],[W-p,H-p],[p,H-p]],
+    'B03':[[p+W*0.15,p],[W-p-W*0.15,p],[W-p-W*0.15,p+H*0.35],[W-p,p+H*0.35],[W-p,p+H*0.65],[W-p-W*0.15,p+H*0.65],[W-p-W*0.15,H-p],[p+W*0.15,H-p],[p+W*0.15,p+H*0.65],[p,p+H*0.65],[p,p+H*0.35],[p+W*0.15,p+H*0.35]],
+    'B04':[[p+W*0.1,p],[W-p,p],[W-p,H-p-H*0.15],[W-p-W*0.1,H-p],[p,H-p],[p,p+H*0.15]],
+    'B05':[[p*0.5,H-p],[W-p*0.5,H-p],[W-p*1.5,p],[p*1.5,p]],
+    'B06':[[p,p],[W-p,p],[W-p,H-p],[p,H-p]],
+    'B07':[[p,p+H*0.3],[p+W*0.25,p],[W-p,p],[W-p,H-p],[p,H-p]],
+    'B08':[[p+W*0.15,p],[W-p,p],[W-p,H-p-H*0.15],[W-p-W*0.15,H-p],[p,H-p],[p,p]],
+    'B09':[[p,p],[W-p-W*0.3,p],[W-p-W*0.3,p+H*0.4],[W-p,p+H*0.4],[W-p,H-p],[p,H-p]],
+    'B12':[[p,p],[W-p,p],[W-p,p+H*0.5],[p+W*0.4,p+H*0.5],[p+W*0.4,H-p],[p,H-p]],
+    'B13':[[p+W*0.1,p],[W-p-W*0.1,p],[W-p,p+H*0.1],[W-p,H-p],[p,H-p],[p,p+H*0.1]],
   };
-  return shapes[id] || [[p,p],[W-p,p],[W-p,H-p],[p,H-p]];
+  return shapes[id]||[[p,p],[W-p,p],[W-p,H-p],[p,H-p]];
 }
 
-window.addEventListener('resize', () => {
-  if (currentBuilding) drawBuilding(currentBuilding);
-});
+// ─── UTILITIES ──────────────────────────────────────────────
+function formatTime(d){
+  return d.toLocaleTimeString('en-PH',{hour:'2-digit',minute:'2-digit',second:'2-digit'})
+    +' · '+d.toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'});
+}
+function formatDate(d){
+  return d.toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'});
+}
+
+window.addEventListener('resize',()=>{if(currentBuilding)drawBuilding(currentBuilding);});
 </script>
 </body>
 </html>
