@@ -25,6 +25,8 @@
     --border-dark: #8cb89a;
     --shadow: 0 1px 4px rgba(26,92,46,0.06), 0 4px 16px rgba(26,92,46,0.04);
     --shadow-md: 0 2px 8px rgba(26,92,46,0.10), 0 8px 24px rgba(26,92,46,0.06);
+    --gray-beacon: #9aada0;
+    --gray-beacon-ring: rgba(154,173,160,;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: 'DM Sans', sans-serif; color: var(--text); }
@@ -106,7 +108,7 @@
   .profile-info p { font-size: 0.82rem; font-weight: 600; color: #fff; }
   .profile-info span { font-size: 0.58rem; font-family: 'DM Mono', monospace; color: rgba(255,255,255,0.45); letter-spacing: 0.14em; text-transform: uppercase; }
 
-  .main-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+  .main-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); min-width: 0; }
 
   .topbar {
     display: flex; align-items: center; justify-content: space-between;
@@ -125,15 +127,151 @@
     background: var(--accent); border: none; color: #fff;
     transition: all 0.2s; text-transform: uppercase;
   }
-  .detect-btn:hover { background: var(--accent-mid); }
+  .detect-btn:hover:not(:disabled) { background: var(--accent-mid); }
   .detect-btn.active-btn { background: #1a7a3e; }
-  .detect-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .detect-btn:disabled { opacity: 0.38; cursor: not-allowed; background: var(--accent); }
 
   .status-badge {
     font-family: 'DM Mono', monospace; font-size: 0.6rem;
     padding: 0.28rem 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
     background: var(--accent-light); color: var(--accent);
     border: 1px solid var(--border-dark); font-weight: 500;
+  }
+
+  /* ── RS TOGGLE BUTTON ───────────────────────────── */
+  .rs-toggle-btn {
+    font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 500;
+    letter-spacing: 0.14em; padding: 0.45rem 0.9rem; cursor: pointer;
+    border: 1px solid var(--border-dark); background: transparent;
+    color: var(--text2); transition: all 0.18s; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .rs-toggle-btn:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  .rs-toggle-btn.rs-active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+
+  /* ── RIGHT SIDEBAR ──────────────────────────────── */
+  .right-sidebar {
+    width: 0; min-width: 0; background: var(--surface);
+    border-left: 1px solid var(--border); overflow: hidden;
+    transition: width 0.28s cubic-bezier(0.4,0,0.2,1), min-width 0.28s cubic-bezier(0.4,0,0.2,1);
+    display: flex; flex-direction: column; flex-shrink: 0; z-index: 15;
+  }
+  .right-sidebar.rs-open { width: 264px; min-width: 264px; }
+
+  .rs-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.9rem 1rem 0.75rem; border-bottom: 1px solid var(--border);
+    background: var(--surface); flex-shrink: 0; white-space: nowrap;
+    gap: 0.5rem;
+  }
+  .rs-header-title {
+    font-family: 'DM Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.22em; color: var(--muted); text-transform: uppercase;
+  }
+  .rs-close-btn {
+    background: transparent; border: none; cursor: pointer;
+    color: var(--muted); font-size: 0.85rem; padding: 2px 4px;
+    transition: color 0.15s; line-height: 1; flex-shrink: 0;
+  }
+  .rs-close-btn:hover { color: var(--text); }
+
+  .rs-body {
+    flex: 1; overflow-y: auto; padding: 1rem;
+    display: flex; flex-direction: column;
+    white-space: nowrap; min-width: 0;
+  }
+
+  .rs-empty-msg {
+    font-family: 'DM Mono', monospace; font-size: 0.58rem;
+    color: var(--muted); letter-spacing: 0.1em; text-align: center;
+    padding: 1.8rem 0 1.2rem; line-height: 1.9; text-transform: uppercase;
+  }
+
+  .rs-locate-btn {
+    font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 500;
+    letter-spacing: 0.18em; padding: 0.62rem 1rem;
+    background: var(--accent); color: #fff; border: none; cursor: pointer;
+    width: 100%; text-transform: uppercase; transition: background 0.15s;
+    margin-top: 0.25rem;
+  }
+  .rs-locate-btn:hover:not(:disabled) { background: var(--accent-mid); }
+  .rs-locate-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .rs-loading-wrap {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 2rem 0.5rem; gap: 0.8rem;
+  }
+  .rs-spinner {
+    width: 32px; height: 32px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: rsSpin 0.9s linear infinite;
+  }
+  @keyframes rsSpin { to { transform: rotate(360deg); } }
+  .rs-loading-label {
+    font-family: 'DM Mono', monospace; font-size: 0.58rem;
+    color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase;
+    animation: blink 1.2s step-end infinite;
+  }
+
+  .rs-section-label {
+    font-family: 'DM Mono', monospace; font-size: 0.52rem;
+    letter-spacing: 0.24em; color: var(--muted); text-transform: uppercase;
+    padding: 0.6rem 0 0.5rem; border-bottom: 1px solid var(--border);
+    margin-bottom: 0.7rem;
+  }
+
+  .beacon-item {
+    background: var(--bg); border: 1px solid var(--border);
+    padding: 0.75rem 0.8rem; margin-bottom: 0.5rem;
+    transition: border-color 0.2s;
+  }
+  .beacon-item.bi-connected { border-color: var(--border-dark); background: var(--accent-xlight); }
+  .beacon-item.bi-toggling { border-color: rgba(181,107,0,0.4); background: var(--warn-light); }
+  .beacon-item.bi-error { border-color: rgba(192,57,43,0.35); background: var(--danger-light); }
+
+  .bi-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
+  .bi-info { flex: 1; min-width: 0; }
+  .bi-name {
+    font-family: 'DM Mono', monospace; font-size: 0.6rem; font-weight: 500;
+    color: var(--text); letter-spacing: 0.08em;
+  }
+  .bi-room {
+    font-family: 'DM Mono', monospace; font-size: 0.52rem;
+    color: var(--muted); margin-top: 2px; letter-spacing: 0.08em;
+  }
+  .bi-status {
+    font-family: 'DM Mono', monospace; font-size: 0.54rem;
+    margin-top: 5px; letter-spacing: 0.08em; display: flex;
+    align-items: center; gap: 5px;
+  }
+  .bi-dot {
+    display: inline-block; width: 6px; height: 6px;
+    border-radius: 50%; flex-shrink: 0;
+  }
+  .bi-err-msg {
+    font-family: 'DM Mono', monospace; font-size: 0.54rem;
+    color: var(--danger); margin-top: 4px; letter-spacing: 0.06em;
+    display: none; line-height: 1.5;
+  }
+  .bi-connect-btn {
+    font-family: 'DM Mono', monospace; font-size: 0.52rem; font-weight: 500;
+    letter-spacing: 0.12em; padding: 4px 9px; cursor: pointer;
+    transition: all 0.15s; text-transform: uppercase; flex-shrink: 0;
+    border: 1px solid var(--border-dark); background: transparent; color: var(--text2);
+    margin-top: 1px;
+  }
+  .bi-connect-btn:hover:not(:disabled) { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  .bi-connect-btn.bi-btn-on { background: var(--accent-light); border-color: var(--border-dark); color: var(--accent); cursor: default; }
+  .bi-connect-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .rs-both-connected-badge {
+    font-family: 'DM Mono', monospace; font-size: 0.56rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--accent-light); color: var(--accent);
+    border: 1px solid var(--border-dark); padding: 0.5rem 0.7rem;
+    text-align: center; margin-top: 0.3rem; line-height: 1.6;
   }
 
   /* ── PANEL VIEWS ────────────────────────────────── */
@@ -279,12 +417,12 @@
   #building-canvas-wrap { position: relative; }
   #building-canvas { display: block; }
   .beacon-legend {
-    position: absolute; bottom: -2.2rem; left: 0; right: 0;
-    display: flex; justify-content: center; gap: 1.8rem;
-    font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--muted);
+    position: absolute; bottom: -2.4rem; left: 0; right: 0;
+    display: flex; justify-content: center; gap: 1.4rem;
+    font-family: 'DM Mono', monospace; font-size: 0.56rem; color: var(--muted);
     letter-spacing: 0.1em; text-transform: uppercase;
   }
-  .legend-dot { display: inline-block; width: 8px; height: 8px; margin-right: 5px; vertical-align: middle; }
+  .legend-dot { display: inline-block; width: 8px; height: 8px; margin-right: 5px; vertical-align: middle; border-radius: 50%; }
 
   /* ── DETECT OVERLAY ─────────────────────────────── */
   #detect-overlay {
@@ -414,7 +552,8 @@
       <div class="topbar-title" id="main-panel-title">Proximity Grid Dashboard</div>
       <div class="topbar-right">
         <div class="status-badge">● Online</div>
-        <button class="detect-btn" id="detect-btn" onclick="startDetectFlow()">⬡ Detect</button>
+        <button class="rs-toggle-btn" id="rs-toggle-btn" onclick="toggleRightSidebar()">⬡ Beacons</button>
+        <button class="detect-btn" id="detect-btn" onclick="startDetectFlow()" disabled title="Connect all beacons first">⬡ Detect</button>
       </div>
     </div>
 
@@ -469,6 +608,15 @@
       </div>
     </div>
   </div>
+
+  <!-- RIGHT SIDEBAR -->
+  <div class="right-sidebar" id="right-sidebar">
+    <div class="rs-header">
+      <div class="rs-header-title">Beacon Control</div>
+      <button class="rs-close-btn" onclick="toggleRightSidebar()" title="Close">✕</button>
+    </div>
+    <div class="rs-body" id="rs-body"></div>
+  </div>
 </div>
 
 <!-- BUILDING DETAIL SCREEN -->
@@ -484,7 +632,8 @@
     <div id="building-canvas-wrap">
       <canvas id="building-canvas"></canvas>
       <div class="beacon-legend">
-        <span><span class="legend-dot" style="background:var(--accent)"></span>Beacon Node</span>
+        <span><span class="legend-dot" style="background:#9aada0"></span>Offline</span>
+        <span><span class="legend-dot" style="background:var(--accent)"></span>Online</span>
         <span><span class="legend-dot" style="background:var(--danger)"></span>Detected Item</span>
       </div>
     </div>
@@ -532,11 +681,11 @@ const BUILDINGS = [
   { id:'B11', name:"Students' Center", sub:'', icon:'🎓', beacons:6, shape:'rect' },
   { id:'B12', name:'BEU Extension', sub:'', icon:'🏢', beacons:5 },
   { id:'B13', name:'BEU Library', sub:'', icon:'📚', beacons:6 },
-  { id:'LR104', name:'Lecture Room', sub:'LR-104', icon:'📋', beacons:2, shape:'box' },
+  { id:'HYFLEX', name:'HYFLEX Room', sub:'SJ 1st Floor', icon:'📋', beacons:2, shape:'box' },
 ];
 
 // ─── STATE ──────────────────────────────────────────────────
-let lr104DetectResult = null;
+let hyflexDetectResult = null;
 let scanComplete = false;
 let currentBuilding = null;
 let detectRafId = null;
@@ -547,6 +696,168 @@ let registeredIDs = ['g2010-0100065', 'g2018-02453'];
 let detectionLogs = [];
 let statusEntries = [];
 let commonLostItems = [];
+
+// ─── RIGHT SIDEBAR STATE ─────────────────────────────────────
+let rightSidebarOpen = false;
+// 'initial' | 'locating' | 'located'
+let beaconLocatingState = 'initial';
+let beaconStates = [
+  { id: 1, connected: false, toggling: false, failMsg: false, toggleTimer: null },
+  { id: 2, connected: false, toggling: false, failMsg: false, toggleTimer: null },
+];
+
+function bothBeaconsConnected() {
+  return beaconStates[0].connected && beaconStates[1].connected;
+}
+
+function updateDetectButton() {
+  const btn = document.getElementById('detect-btn');
+  if (bothBeaconsConnected()) {
+    btn.disabled = false;
+    btn.title = '';
+  } else {
+    btn.disabled = true;
+    btn.title = 'Connect all beacons first';
+  }
+}
+
+// ─── RIGHT SIDEBAR TOGGLE ────────────────────────────────────
+function toggleRightSidebar() {
+  rightSidebarOpen = !rightSidebarOpen;
+  const sidebar = document.getElementById('right-sidebar');
+  const btn = document.getElementById('rs-toggle-btn');
+  sidebar.classList.toggle('rs-open', rightSidebarOpen);
+  btn.classList.toggle('rs-active', rightSidebarOpen);
+  if (rightSidebarOpen) renderRightSidebar();
+}
+
+// ─── RIGHT SIDEBAR RENDER ────────────────────────────────────
+function renderRightSidebar() {
+  const body = document.getElementById('rs-body');
+  body.innerHTML = '';
+
+  if (beaconLocatingState === 'initial') {
+    const empty = document.createElement('div');
+    empty.className = 'rs-empty-msg';
+    empty.textContent = 'No beacons located.\nPress below to scan.';
+    empty.style.whiteSpace = 'pre-line';
+    body.appendChild(empty);
+
+    const btn = document.createElement('button');
+    btn.className = 'rs-locate-btn';
+    btn.textContent = '⬡ Locate Beacons';
+    btn.onclick = locateBeacons;
+    body.appendChild(btn);
+
+  } else if (beaconLocatingState === 'locating') {
+    const wrap = document.createElement('div');
+    wrap.className = 'rs-loading-wrap';
+    wrap.innerHTML = `<div class="rs-spinner"></div><div class="rs-loading-label">Scanning for beacons…</div>`;
+    body.appendChild(wrap);
+
+  } else {
+    // located
+    const sec = document.createElement('div');
+    sec.className = 'rs-section-label';
+    sec.textContent = 'HYFLEX Room — SJ 1st Floor';
+    body.appendChild(sec);
+
+    beaconStates.forEach((beacon, idx) => {
+      const item = document.createElement('div');
+      item.className = 'beacon-item';
+      if (beacon.connected) item.classList.add('bi-connected');
+      else if (beacon.toggling) item.classList.add('bi-toggling');
+      else if (beacon.failMsg) item.classList.add('bi-error');
+
+      let statusColor, statusDotColor, statusText;
+      if (beacon.connected) {
+        statusColor = 'var(--accent)'; statusDotColor = 'var(--accent)';
+        statusText = 'Connected';
+      } else if (beacon.toggling) {
+        statusColor = 'var(--warn)'; statusDotColor = 'var(--warn)';
+        statusText = 'Connecting…';
+      } else {
+        statusColor = 'var(--muted)'; statusDotColor = '#9aada0';
+        statusText = 'Not Connected';
+      }
+
+      let btnHTML;
+      if (beacon.connected) {
+        btnHTML = `<button class="bi-connect-btn bi-btn-on" disabled>✓ On</button>`;
+      } else if (beacon.toggling) {
+        btnHTML = `<button class="bi-connect-btn" disabled style="opacity:0.45">···</button>`;
+      } else {
+        btnHTML = `<button class="bi-connect-btn" onclick="connectBeacon(${idx})">Connect</button>`;
+      }
+
+      item.innerHTML = `
+        <div class="bi-row">
+          <div class="bi-info">
+            <div class="bi-name">Beacon ${beacon.id}</div>
+            <div class="bi-room">HYFLEX · SJ 1st Floor</div>
+            <div class="bi-status" style="color:${statusColor}${beacon.toggling ? ';animation:blink 1s step-end infinite' : ''}">
+              <span class="bi-dot" style="background:${statusDotColor}"></span>${statusText}
+            </div>
+            <div class="bi-err-msg" style="display:${beacon.failMsg ? 'block' : 'none'}">Try again, beacon not connected.</div>
+          </div>
+          ${btnHTML}
+        </div>`;
+      body.appendChild(item);
+    });
+
+    if (bothBeaconsConnected()) {
+      const badge = document.createElement('div');
+      badge.className = 'rs-both-connected-badge';
+      badge.innerHTML = '✓ All beacons online<br>Detection is ready';
+      body.appendChild(badge);
+    }
+  }
+}
+
+// ─── LOCATE BEACONS ─────────────────────────────────────────
+function locateBeacons() {
+  beaconLocatingState = 'locating';
+  renderRightSidebar();
+  const t = (1 + Math.random() * 14) * 1000;
+  setTimeout(() => {
+    beaconLocatingState = 'located';
+    renderRightSidebar();
+  }, t);
+}
+
+// ─── CONNECT BEACON ─────────────────────────────────────────
+function connectBeacon(idx) {
+  const beacon = beaconStates[idx];
+  if (beacon.connected || beacon.toggling) return;
+  beacon.toggling = true;
+  beacon.failMsg = false;
+  renderRightSidebar();
+  const t = (1 + Math.random() * 14) * 1000;
+  beacon.toggleTimer = setTimeout(() => {
+    beacon.toggling = false;
+    beacon.connected = true;
+    renderRightSidebar();
+    updateDetectButton();
+    if (currentBuilding && currentBuilding.id === 'HYFLEX') {
+      drawBuilding(currentBuilding);
+    }
+  }, t);
+}
+
+function failBeaconToggle(idx) {
+  const beacon = beaconStates[idx];
+  clearTimeout(beacon.toggleTimer);
+  beacon.toggling = false;
+  beacon.failMsg = true;
+  renderRightSidebar();
+  setTimeout(() => {
+    beacon.failMsg = false;
+    if (rightSidebarOpen) renderRightSidebar();
+  }, 3000);
+}
+
+// Initialize right sidebar
+renderRightSidebar();
 
 // ─── IDLE CANVAS (green palette) ────────────────────────────
 (function initIdle() {
@@ -602,7 +913,7 @@ function renderBuildings(showDetected) {
   const grid = document.getElementById('buildings-grid');
   grid.innerHTML = '';
   BUILDINGS.forEach(b => {
-    const detected = showDetected && b.id==='LR104' && lr104DetectResult!==null;
+    const detected = showDetected && b.id==='HYFLEX' && hyflexDetectResult!==null;
     const card = document.createElement('div');
     card.className = 'building-card'+(detected?' detected':'');
     card.innerHTML = `<div class="building-icon">${b.icon}</div>
@@ -655,6 +966,7 @@ setSidePanel('buildings', document.querySelector('.nav-item[data-panel="building
 
 // ─── DETECT FLOW ─────────────────────────────────────────────
 function startDetectFlow() {
+  if (!bothBeaconsConnected()) return;
   document.getElementById('student-id-input').value = '';
   document.getElementById('modal-error').style.display = 'none';
   document.getElementById('student-id-modal').classList.add('show');
@@ -689,16 +1001,27 @@ let hiddenListening = false;
 function startHiddenPlacementListener() {
   hiddenBuffer = ''; hiddenListening = true;
 }
+
+// ─── GLOBAL KEYDOWN (z-key + hidden buffer) ──────────────────
 document.addEventListener('keydown', function(e) {
-  if(!hiddenListening) return;
-  if(e.key==='Shift'||e.key==='Control'||e.key==='Alt'||e.key==='Meta') return;
-  if(e.key==='Enter') {
+  // Priority 1: z-key during beacon toggle
+  const togglingIdx = beaconStates.findIndex(b => b.toggling);
+  if (togglingIdx !== -1 && (e.key === 'z' || e.key === 'Z')) {
+    failBeaconToggle(togglingIdx);
+    e.preventDefault();
+    return;
+  }
+
+  // Priority 2: hidden placement listener
+  if (!hiddenListening) return;
+  if (e.key==='Shift'||e.key==='Control'||e.key==='Alt'||e.key==='Meta') return;
+  if (e.key==='Enter') {
     const raw = hiddenBuffer.trim().toLowerCase();
     const beaconChar = raw[0];
     const posCode = raw.slice(1);
-    if(['1','2'].includes(beaconChar) && VALID_POS.includes(posCode)) {
+    if (['1','2'].includes(beaconChar) && VALID_POS.includes(posCode)) {
       hiddenListening = false; hiddenBuffer = '';
-      lr104DetectResult = { beacon: parseInt(beaconChar), pos: posCode };
+      hyflexDetectResult = { beacon: parseInt(beaconChar), pos: posCode };
       runRadarScan(true);
     } else {
       hiddenBuffer = '';
@@ -706,8 +1029,8 @@ document.addEventListener('keydown', function(e) {
     }
     return;
   }
-  if(e.key==='Backspace'){ hiddenBuffer=hiddenBuffer.slice(0,-1); return; }
-  if(e.key.length===1){ hiddenBuffer+=e.key; if(hiddenBuffer.length>4) hiddenBuffer=hiddenBuffer.slice(-4); }
+  if (e.key==='Backspace') { hiddenBuffer=hiddenBuffer.slice(0,-1); return; }
+  if (e.key.length===1) { hiddenBuffer+=e.key; if(hiddenBuffer.length>4) hiddenBuffer=hiddenBuffer.slice(-4); }
 });
 
 function runRadarScan(itemFound) {
@@ -763,16 +1086,17 @@ function runRadarScan(itemFound) {
     cancelAnimationFrame(detectRafId);
     overlay.classList.remove('show');
     scanComplete = true;
-    if(itemFound && lr104DetectResult) {
-      const locStr = `LR-104 · BCN-${lr104DetectResult.beacon} [${lr104DetectResult.pos.toUpperCase()}]`;
+    if(itemFound && hyflexDetectResult) {
+      const locStr = `HYFLEX · SJ 1F · BCN-${hyflexDetectResult.beacon} [${hyflexDetectResult.pos.toUpperCase()}]`;
       addLog(currentStudentId, 'found', locStr);
-      addStatusEntry(currentStudentId, locStr, lr104DetectResult);
+      addStatusEntry(currentStudentId, locStr, hyflexDetectResult);
     } else {
       addLog(currentStudentId, 'not-found', null);
     }
     renderBuildings(true);
-    btn.textContent='✓ Scanned';btn.disabled=false;btn.classList.add('active-btn');
-    setTimeout(()=>{btn.textContent='⬡ Detect';btn.classList.remove('active-btn');},3000);
+    updateDetectButton();
+    btn.textContent='✓ Scanned'; btn.classList.add('active-btn');
+    setTimeout(()=>{btn.textContent='⬡ Detect';btn.classList.remove('active-btn');updateDetectButton();},3000);
   }, countdown*1000+1000);
 }
 
@@ -902,7 +1226,7 @@ function drawBuilding(b) {
   for(let y=0;y<=H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
   const pad=38;
   let path;
-  if(b.shape==='box'||b.id==='LR104'){path=[[pad,pad],[W-pad,pad],[W-pad,H-pad],[pad,H-pad]];}
+  if(b.shape==='box'||b.id==='HYFLEX'){path=[[pad,pad],[W-pad,pad],[W-pad,H-pad],[pad,H-pad]];}
   else if(b.shape==='rect'){path=[[pad,pad],[W-pad,pad],[W-pad,H-pad],[pad,H-pad]];}
   else{path=buildingShape(b.id,W,H,pad);}
   ctx.beginPath();ctx.moveTo(path[0][0],path[0][1]);
@@ -912,25 +1236,42 @@ function drawBuilding(b) {
   const xs=path.map(p=>p[0]),ys=path.map(p=>p[1]);
   const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);
   let beaconPositions;
-  if(b.id==='LR104'){
+  if(b.id==='HYFLEX'){
     const bY=minY+(maxY-minY)*0.22;
     beaconPositions=[[minX+(maxX-minX)*0.28,bY],[minX+(maxX-minX)*0.72,bY]];
   } else {
     beaconPositions=distributePoints(b.beacons,minX+22,maxX-22,minY+22,maxY-22);
   }
+
   beaconPositions.forEach(([bx,by],idx)=>{
-    ctx.beginPath();ctx.arc(bx,by,20,0,Math.PI*2);ctx.strokeStyle='rgba(26,92,46,0.1)';ctx.lineWidth=1.5;ctx.stroke();
-    ctx.beginPath();ctx.arc(bx,by,12,0,Math.PI*2);ctx.strokeStyle='rgba(26,92,46,0.25)';ctx.lineWidth=1.5;ctx.stroke();
-    ctx.beginPath();ctx.arc(bx,by,7,0,Math.PI*2);ctx.strokeStyle='rgba(26,92,46,0.5)';ctx.lineWidth=1.5;ctx.stroke();
-    ctx.beginPath();ctx.arc(bx,by,4,0,Math.PI*2);ctx.fillStyle='#1a5c2e';ctx.fill();
-    ctx.strokeStyle='rgba(26,92,46,0.4)';ctx.lineWidth=1;
+    // Determine color based on building and connection state
+    let isOn = false;
+    if (b.id === 'HYFLEX') {
+      isOn = beaconStates[idx] && beaconStates[idx].connected;
+    }
+    // All others: always gray (offline)
+    const bColor      = isOn ? '#1a5c2e'                    : '#8a9e90';
+    const bRingAlpha  = isOn ? 'rgba(26,92,46,'             : 'rgba(138,158,144,';
+    const bXhair      = isOn ? 'rgba(26,92,46,0.4)'         : 'rgba(138,158,144,0.4)';
+    const bLabel      = isOn ? 'rgba(26,92,46,0.45)'        : 'rgba(138,158,144,0.45)';
+    const bLabelBold  = isOn ? 'rgba(26,92,46,0.75)'        : 'rgba(138,158,144,0.75)';
+
+    ctx.beginPath();ctx.arc(bx,by,20,0,Math.PI*2);ctx.strokeStyle=`${bRingAlpha}0.1)`;ctx.lineWidth=1.5;ctx.stroke();
+    ctx.beginPath();ctx.arc(bx,by,12,0,Math.PI*2);ctx.strokeStyle=`${bRingAlpha}0.25)`;ctx.lineWidth=1.5;ctx.stroke();
+    ctx.beginPath();ctx.arc(bx,by,7,0,Math.PI*2);ctx.strokeStyle=`${bRingAlpha}0.5)`;ctx.lineWidth=1.5;ctx.stroke();
+    ctx.beginPath();ctx.arc(bx,by,4,0,Math.PI*2);ctx.fillStyle=bColor;ctx.fill();
+    ctx.strokeStyle=bXhair;ctx.lineWidth=1;
     ctx.beginPath();ctx.moveTo(bx-10,by);ctx.lineTo(bx+10,by);ctx.stroke();
     ctx.beginPath();ctx.moveTo(bx,by-10);ctx.lineTo(bx,by+10);ctx.stroke();
-    ctx.fillStyle='rgba(26,92,46,0.45)';ctx.font='7px "DM Mono", monospace';ctx.fillText('BCN',bx+9,by-7);
-    if(b.id==='LR104'){ctx.fillStyle='rgba(26,92,46,0.75)';ctx.font='bold 9px "DM Mono", monospace';ctx.fillText(`B${idx+1}`,bx-4,by+20);}
+    ctx.fillStyle=bLabel;ctx.font='7px "DM Mono", monospace';ctx.fillText('BCN',bx+9,by-7);
+    if(b.id==='HYFLEX'){
+      ctx.fillStyle=bLabelBold;ctx.font='bold 9px "DM Mono", monospace';
+      ctx.fillText(`B${idx+1}`,bx-4,by+20);
+    }
   });
-  if(b.id==='LR104'&&scanComplete&&lr104DetectResult!==null){
-    const{beacon,pos}=lr104DetectResult;
+
+  if(b.id==='HYFLEX'&&scanComplete&&hyflexDetectResult!==null&&bothBeaconsConnected()){
+    const{beacon,pos}=hyflexDetectResult;
     const[bcnX,bcnY]=beaconPositions[beacon-1];
     const OFFSET=55;
     let dx=0,dy=0;
